@@ -1,4 +1,4 @@
-{
+module.exports = {
   "parser": "babel-eslint",
   "extends": [
     "airbnb",
@@ -26,6 +26,17 @@
     "arrow-body-style": [
       "error",
       "always"
-    ]
+    ],
+    "new-cap": [
+      "error",
+      {
+        // Add immutableJs types here
+        "capIsNewExceptions": [
+          "Map",
+          "List",
+        ]
+      }
+    ],
+    "react/forbid-prop-types": 0,
   }
-}
+};

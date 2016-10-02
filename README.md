@@ -19,11 +19,11 @@
 
 ### eslint setup ###
 To use es-lint in webstorm:
-![webstorm](./_misc/eslint-webstorm.png)
+![webstorm](_misc/eslint-webstorm.png)
 
 ### Flow + webstorm setup ###
 To use in webstorm:
-![webstorm](./_misc/flow-webstorm.png)
+![webstorm](_misc/flow-webstorm.png)
 
 
 ### Flow + webpack setup ###
@@ -76,4 +76,12 @@ esproposal.class_instance_fields=enable
 Add this to scripts in package.json file.
  ```
  "flow": "./node_modules/flow-bin/vendor/flow; test $? -eq 0 -o $? -eq 2"
- ```# react-redux-boilerplate
+ ```
+
+Adding immutablejs flow types:
+Add this to .flowconfig
+
+ ```
+ [libs]
+ .*/node_modules/immutable/dist/immutable.js.flow
+ ```
