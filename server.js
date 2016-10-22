@@ -11,11 +11,8 @@ app.use(cors()); // Disables CORS
 app.use(morgan('combined')); // Logging framework, used for debugging
 app.use(bodyParser.json({ type: '*/*' })); // parses incoming requests into json
 
-app.get(
-  '/', (req, res) => {
-    res.send('asdfsad');
-  }
-);
+app.get('/', (req, res) => res.send('Hello World'));
+
 // Server Setup
 const port = process.env.PORT || 3090;
 
