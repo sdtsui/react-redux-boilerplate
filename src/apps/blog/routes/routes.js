@@ -1,11 +1,7 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
-import Main from '../components/Main';
-import Component1 from '../components/Component1';
+import { Route } from 'react-router';
+import BlogContainer from '../containers/Container';
 
-const routes = (
-  <Route path="blog" component={Main}>
-    <IndexRoute component={Component1}/>
-  </Route>
+export const routes = (
+  <Route path="blog" component={BlogContainer}/>
 );
-export default routes;
