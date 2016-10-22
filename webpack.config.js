@@ -5,7 +5,13 @@ const distDir = path.join(__dirname, 'dist');
 console.log('distDir', distDir);
 const flowConfig = {
   restartFlow: true,
-  binaryPath: path.join(__dirname, 'node_modules', 'flow-bin', 'vendor', 'flow'),
+  binaryPath: path.join(
+    __dirname,
+    'node_modules',
+    'flow-bin',
+    'vendor',
+    'flow'
+  ),
 };
 
 module.exports = {
@@ -18,11 +24,13 @@ module.exports = {
     filename: 'bundle.js',
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
-    }),
+    new webpack.DefinePlugin(
+      {
+        'process.env': {
+          NODE_ENV: JSON.stringify('development'),
+        },
+      }
+    ),
     new FlowStatusWebpackPlugin(flowConfig),
   ],
   module: {
@@ -71,4 +79,5 @@ module.exports = {
     historyApiFallback: true,
     contentBase: distDir,
   },
+  target: 'node',
 };

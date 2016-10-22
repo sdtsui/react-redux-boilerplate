@@ -4,7 +4,7 @@ import Main from '../components/Main';
 import Component1 from '../components/Component1';
 
 const routes = (
-  <Route path="gallery" component={Main}>
+  <Route path="videos" component={Main}>
     <IndexRoute component={Component1}/>
   </Route>
 );
