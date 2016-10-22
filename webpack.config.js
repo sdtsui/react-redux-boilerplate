@@ -26,14 +26,14 @@ module.exports = {
     new FlowStatusWebpackPlugin(flowConfig),
   ],
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-        includes: '.src/',
-      },
-    ],
+    // preLoaders: [
+    //   {
+    //     test: /\.js$/,
+    //     loader: 'eslint-loader',
+    //     exclude: /node_modules/,
+    //     includes: '.src/',
+    //   },
+    // ],
     loaders: [
       {
         exclude: /node_modules/,

@@ -45,18 +45,18 @@
     "webpack-dev-server": "^1.14.0"
   },
   "dependencies": {
-    "chai": "^3.5.0",
-    "react-addons-test-utils": "^0.14.7",
-    "jsdom": "^8.1.0",
     "babel-preset-stage-1": "^6.1.18",
+    "chai": "^3.5.0",
     "flow-status-webpack-plugin": "0.1.6",
     "immutable": "3.8.1",
-    "lodash": "^3.10.1",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "jsdom": "^8.1.0",
+    "react": "latest",
+    "react-addons-test-utils": "latest",
+    "react-dom": "latest",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
+    "redux-thunk": "2.1.0",
     "webpack": "1.13.2"
   }
 }

@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 describe(
   'App', () => {
-
     it(
       'renders something', () => {
         console.log('ran');
