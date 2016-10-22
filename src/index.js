@@ -7,9 +7,9 @@ import routes from './routes';
 import reducers from './reducers';
 
 const createStoreWithMiddleware: Function = applyMiddleware()(createStore);
-
-ReactDOM.render(
+const provider = (
   <Provider store={createStoreWithMiddleware(reducers)}>
     { routes }
   </Provider>
-  , document.querySelector('.container'));
+);
+ReactDOM.render(provider, document.querySelector('.container'));

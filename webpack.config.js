@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 const path = require('path');
-
+const distDir = path.join(__dirname, 'dist');
+console.log('distDir', distDir);
 const flowConfig = {
   restartFlow: true,
   binaryPath: path.join(__dirname, 'node_modules', 'flow-bin', 'vendor', 'flow'),
@@ -12,7 +13,7 @@ module.exports = {
     './src/index.js',
   ],
   output: {
-    path: __dirname,
+    path: distDir,
     publicPath: '/',
     filename: 'bundle.js',
   },
@@ -68,6 +69,6 @@ module.exports = {
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './',
+    contentBase: distDir,
   },
 };

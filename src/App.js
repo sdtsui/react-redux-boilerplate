@@ -5,8 +5,9 @@ import { connect } from 'react-redux';
 const App = (props: Object) => {
   return (
     <div>
+      <h1>Hello</h1>
+      <h1>{props.app.get('test')}</h1>
       {props.children}
-      <h1>{props.appState.get('test')}</h1>
     </div>
   );
 };
@@ -17,12 +18,12 @@ App.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    appState: state.appReducer,
+    app: state.app,
   };
 };
 
 App.propTypes = {
-  appState: PropTypes.object,
+  app: PropTypes.object,
 };
 
 export default connect(mapStateToProps)(App);

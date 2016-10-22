@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Router, browserHistory } from 'react-router';
-import App from './components/App';
+import App from './App';
 
 export default (
   <Router history={browserHistory}>
