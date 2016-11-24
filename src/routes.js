@@ -1,12 +1,18 @@
 import React from 'react';
-import { Route, Router, browserHistory } from 'react-router';
-import App from './App';
-import { routes as blogRoutes } from './apps/blog/routes/routes';
+import { Route, Router, browserHistory, IndexRoute } from 'react-router';
+import App from './pages/App';
+import Page1 from './pages/Page1';
 
-export default (
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      {blogRoutes}
-    </Route>
-  </Router>
-);
+/**
+ * Has access to the redux store. Useful for validation purposes
+ * @param store
+ */
+export default (store) => {
+  return (
+    <Router history={browserHistory}>
+      <Route path="/" component={App}>
+        <IndexRoute component={Page1}/>
+      </Route>
+    </Router>
+  );
+}
