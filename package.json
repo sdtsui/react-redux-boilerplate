@@ -50,6 +50,7 @@
     "react-addons-test-utils": "latest",
     "react-dom": "latest",
     "react-redux": "^4.0.0",
+    "react-redux-reducer": "latest",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
     "redux-thunk": "2.1.0",

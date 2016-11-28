@@ -9,9 +9,10 @@ class AppContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ app }) => {
+const mapStateToProps = ({ app, page1 }) => {
   return {
     app,
+    page1,
   };
 };
 

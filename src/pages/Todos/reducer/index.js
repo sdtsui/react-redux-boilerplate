@@ -1,5 +1,5 @@
-import reduxReducer from '../../../helpers/redux-scope';
+import makeReducer from '../../../helpers/redux-scope';
 const initialState = { clicks: 1 };
-const newReducer = reduxReducer('PAGE1', initialState);
+const newReducer = makeReducer('TODO', initialState);
 export const reducer = newReducer.reducer;
 export const actions = newReducer.actions;

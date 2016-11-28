@@ -10,8 +10,9 @@ class Page1Container extends Component {
   }
 }
 
-const mapStateToProps = ({ page1 }) => {
+const mapStateToProps = ({ page1, app }) => {
   return {
+    app,
     page1,
   };
 };

@@ -1,4 +1,5 @@
 import makeReducer from '../../../helpers/redux-scope';
-const newReducer = makeReducer('APP');
+const initialState = { clicks: 1 };
+const newReducer = makeReducer('APP', initialState);
 export const reducer = newReducer.reducer;
 export const actions = newReducer.actions;
