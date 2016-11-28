@@ -1,8 +1,7 @@
 import React from 'react';
 import { Route, Router, browserHistory, IndexRoute } from 'react-router';
 import App from './pages/App';
-import Page1 from './pages/Page1';
-import Todos from './pages/Todos';
+import Filters from './pages/Filters';
 
 /**
  * Has access to the redux store. Useful for validation purposes
@@ -12,7 +11,7 @@ export default (store) => {
   return (
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <IndexRoute component={Todos}/>
+        <IndexRoute component={Filters}/>
       </Route>
     </Router>
   );
