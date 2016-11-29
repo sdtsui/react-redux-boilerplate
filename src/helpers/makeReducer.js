@@ -6,7 +6,6 @@
  */
 const mergeState = (state, propsToMerge) => {
   return { ...state, ...propsToMerge };
-
 };
 
 /**
@@ -26,7 +25,9 @@ const prefixTypes = (unprefixedActions, prefix) => {
 };
 
 /**
- *
+ * Pass the prefixed types to the actions
+ * function looks like actions(prefixedTypes) => { fn1, fn2 }
+ * We are curying the prefixedTypes
  * @param { object } prefixedTypes
  * @param { function } actions
  * @returns {*}
@@ -49,7 +50,7 @@ const createReducer = (prefixedTypes, initialState, callback) => (state = initia
     return mergeState(state, action.payload);
   }
   if (typeof callback === 'function') {
-    return callback(state, action.type, prefixedTypes);
+    return callback(state, action, prefixedTypes);
   }
   return state;
 };
@@ -87,7 +88,7 @@ const createDefaultActions = prefixedTypes => {
  * @param { object } initialState
  * @param { function } reducer
  * @param { array } types
- * @param { function } actions
+ * @param { function } actions - they curry the prefixed types.
  * @returns {{actions: {}, types, reducer}}
  */
 const makeReducer = (prefix = 'DEFAULT', initialState = {}, reducer, types = [], actions) => {
@@ -97,7 +98,7 @@ const makeReducer = (prefix = 'DEFAULT', initialState = {}, reducer, types = [],
   const prefixedActions = prefixActions(prefixedTypes, actions);
   const newReducer = createReducer(prefixedTypes, initialState, reducer);
   return {
-    actions: { ...prefixedActions, ...defaultActions },
+    actions: { ...defaultActions, ...prefixedActions },
     types: prefixedTypes,
     reducer: newReducer,
   };

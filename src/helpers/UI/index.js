@@ -8,21 +8,22 @@ const UI = (ComponentClass,
             initialState,
             stateToProps = null,
             dispatchToProps = null) => {
+
   class UIComponent extends Component {
     /**
      * Add the initial State here!
      */
     componentWillMount() {
-      const { setState } = this.props;
-      setState({ [key]: initialState });
+      const { setLocalState } = this.props;
+      setLocalState(initialState);
     }
 
     /**
      * Remove the data if specified
      */
     componentWillUnMount() {
-      const setState = this.props;
-      setState({ [key]: {} });
+      const setLocalState = this.props;
+      setLocalState({});
     }
 
     render() {
@@ -37,10 +38,12 @@ const UI = (ComponentClass,
   };
 
   const mapDispatchToProps = dispatch => {
-    return bindActionCreators({ ...actions }, dispatch);
+    // Curry the key in setState
+    const setLocalState = actions.setLocalState(key);
+    return bindActionCreators({ ...actions, setLocalState }, dispatch);
   };
 
-  return connect(mapStateToProps, mapDispatchToProps)(ComponentClass);
+  return connect(mapStateToProps, mapDispatchToProps)(UIComponent);
 };
 
 export default UI;

@@ -1,15 +1,19 @@
 // @flow
 import React, { PropTypes } from 'react';
-import AppMenu from '../AppMenu';
+import Menu from '../Menu';
+import Blog from '../Blog';
 
 const Gallery = (props: Object) => {
-  console.log('gallery props', props);
   return (
     <div>
       <h1>This is the gallery</h1>
-      <button onClick={ () => props.setState({ color: 'red'})}>Red</button>
-      <button onClick={ () => props.setState({ color: 'blue'})}>Blue</button>
-      <AppMenu/>
+      <button onClick={ () => props.setLocalState({ color: 'red'})}>Red</button>
+      <button onClick={ () => props.setLocalState({ color: 'blue'})}>Blue
+      </button>
+      <h2>Menu</h2>
+      <Menu/>
+      <h2>Blog</h2>
+      <Blog/>
     </div>
   );
 };
