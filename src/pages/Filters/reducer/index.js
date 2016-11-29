@@ -1,4 +1,4 @@
-import makeReducer from '../../../helpers/redux-scope';
+import makeReducer from '../../../helpers/makeReducer';
 const initialState = {
   blur: '0px',
   brightness: '100%',

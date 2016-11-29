@@ -9,11 +9,8 @@ class AppContainer extends Component {
   }
 }
 
-const mapStateToProps = ({ app, page1 }) => {
-  return {
-    app,
-    page1,
-  };
+const mapStateToProps = (state) => {
+  return state;
 };
 
 const mapDispatchToProps = dispatch => {

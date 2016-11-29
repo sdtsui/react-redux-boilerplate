@@ -32,7 +32,7 @@ const Filters = (props: Object) => {
     }, '');
     return { WebkitFilter: filterValues }
   };
-  
+
   return (
     <div>
       <section className="filter-menu">
@@ -61,13 +61,6 @@ const Filters = (props: Object) => {
           value={stripUnit(contrast)}
           onChange={(e) => setState({contrast: e.target.value + '%'})}
         />
-        {/*<FilterInput*/}
-        {/*label="Drop Shadow"*/}
-        {/*type="range"*/}
-        {/*min="0"*/}
-        {/*max="100"*/}
-        {/*onChange={(e) => setState({dropShadow: e.target.value + '%'})}*/}
-        {/*/>*/}
         <FilterInput
           label="Greyscale"
           type="range"

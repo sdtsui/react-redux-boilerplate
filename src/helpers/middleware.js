@@ -27,9 +27,7 @@ const prefixType = (typeScopePrefix, type) => {
  */
 export const reduxScopeMiddleware = ({ dispatch }) => {
   return next => action => {
-    console.log('action.type', action);
     if (action.scope) {
-      console.log('action.scope', action.scope);
       const unprefixedType = unprefixType(action.type);
       const prefixedType = prefixType(action.scope, unprefixedType);
       const actionCopy = { ...action };

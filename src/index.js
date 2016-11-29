@@ -6,7 +6,7 @@ import { createStore, applyMiddleware } from 'redux';
 import routes from './routes';
 import reducers from './reducer';
 import thunk from 'redux-thunk'
-import reduxScopeMiddleware from './middleware/redux-scope-middleware'
+import reduxScopeMiddleware from './helpers/middleware'
 
 const middleware = [
   thunk,
