@@ -1,7 +1,7 @@
 import makeReducer from '../makeReducer';
 
-//uiTypes
-const uiTypes = ['SET_UI_STATE'];
+// UITypes
+const uiTypes = ['SET_UI_STATE', 'REMOVE_UI_KEY'];
 
 // UI Actions
 const uiActions = prefixedTypes => {
@@ -13,8 +13,17 @@ const uiActions = prefixedTypes => {
       key: scope || key,
     };
   };
+
+  const removeUIKey = key => {
+    return {
+      type: prefixedTypes.REMOVE_UI_KEY,
+      key,
+    }
+  };
+
   return {
     setLocalState,
+    removeUIKey,
   }
 };
 
@@ -25,6 +34,13 @@ const uiReducer = (state, action, prefixedTypes) => {
       const { key, payload } = action;
       const newState = { ...state };
       newState[key] = { ...newState[key], ...payload };
+      return newState;
+    }
+
+    case prefixedTypes.REMOVE_UI_KEY: {
+      const { key } = action;
+      const newState = { ...state };
+      delete newState[key];
       return newState;
     }
 
