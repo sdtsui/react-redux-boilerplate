@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import UI from '../../helpers/UI';
 import { bindActionCreators } from 'redux';
 import BlogPost from './BlogPosts';
+import BlogPost2 from './BlogPosts2';
 
 const Blog = (props) => {
-  console.log('Blog Props', props);
   const posts = [
     { title: 'title 1' },
     { title: 'title 2' },
@@ -17,12 +17,26 @@ const Blog = (props) => {
   /**
    * Renders blog posts
    * @param posts
+   * @param prefix
    */
-  const blogPosts = (posts) => {
+  const blogPosts = (posts, prefix) => {
     return posts.map((post, i) => {
-      const DecoratedBlogPost = UI('blogPost' + (i+1), { isSelected: false }, null, null, true)(BlogPost);
       return (
-        <DecoratedBlogPost key={i} title={post.title}/>);
+        <BlogPost
+          key={i}
+          title={post.title}
+          uiKey={prefix + i}
+        />);
+    });
+  };
+  /**
+   * Renders blog posts
+   * @param posts
+   */
+  const blogPosts2 = (posts) => {
+    return posts.map((post, i) => {
+      return (
+        <BlogPost2 key={i} title={post.title}/>);
     });
   };
   return (
@@ -54,7 +68,9 @@ const Blog = (props) => {
       <button onClick={props.sayHi}>
         sayHi
       </button>
-      {blogPosts(posts)}
+      {blogPosts(posts, 'test')}
+      {blogPosts(posts, 'test2')}
+      {blogPosts2(posts)}
     </div>
   );
 };

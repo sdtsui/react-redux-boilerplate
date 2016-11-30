@@ -4,7 +4,6 @@ import UI from '../../helpers/UI';
 @UI('welcome', { visitors: 0 })
 class Welcome extends React.Component {
   render() {
-    console.log('welcome props', this.props);
     if (!this.props.welcome) {
       return <div></div>;
     }

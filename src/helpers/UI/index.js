@@ -19,25 +19,23 @@ function generateRandomKey() {
   return key;
 }
 
-const UI = (_key,
+// TODO get the initialState from the defaultProps of the component.
+const UI = (key,
             initialState,
             mapStateToProps = () => ({}),
-            mapDispatchToProps = () => ({}),
-            persist = false) => ComponentClass => {
-  const key = _key ? _key : generateRandomKey();
+            mapDispatchToProps = () => ({})) => ComponentClass => {
+
+  // Set state as a defaultProp of the component class. So that it is never
+  // undefined
+  ComponentClass.defaultProps = { ...ComponentClass.defaultProps, state: {} };
 
   class Wrapper extends Component {
     constructor() {
       super();
     }
 
-    /**
-     * Add the initial State here!
-     */
     componentWillMount() {
-      if (this.props.state) {
-        return;
-      }
+      // set the initial state for the component
       const { setLocalState } = this.props;
       setLocalState(initialState);
     }
@@ -46,32 +44,31 @@ const UI = (_key,
      * Remove the data if specified
      */
     componentWillUnmount() {
-      if (persist) {
-        return;
-      }
-      const { removeUIKey } = this.props;
-      removeUIKey(key);
+      const { removeUIKey, uiKey } = this.props;
+      removeUIKey(uiKey);
     }
 
     render() {
-      return <ComponentClass {...this.props} />;
+      return <ComponentClass {...this.props}/>;
     }
   }
 
-  const mergeStateToProps = state => {
+  const mergeStateToProps = (state, ownProps) => {
     if (typeof mapStateToProps === 'function') {
       return {
         ...mapStateToProps(state),
         state: state.ui[key],
+        uiKey: key,
       };
     }
 
     return {
       state: state.ui[key],
+      uiKey: key,
     };
   };
 
-  const mergeDispatchToProps = dispatch => {
+  const mergeDispatchToProps = (dispatch, ownProps) => {
     // Curry the key in setState
     const setLocalState = actions.setLocalState(key);
     if (typeof mapDispatchToProps === 'function') {
