@@ -3,22 +3,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { actions } from './reducer';
 
-/**
- * Taken from draft-js
- * @returns {*}
- */
-function generateRandomKey() {
-  const seenKeys = {};
-  const MULTIPLIER = Math.pow(2, 24);
-
-  let key = void 0;
-  while (key === undefined || seenKeys.hasOwnProperty(key) || !isNaN(+key)) {
-    key = Math.floor(Math.random() * MULTIPLIER).toString(32);
-  }
-  seenKeys[key] = true;
-  return key;
-}
-
 // TODO get the initialState from the defaultProps of the component.
 const UI = (key,
             initialState,
@@ -27,15 +11,14 @@ const UI = (key,
 
   // Set state as a defaultProp of the component class. So that it is never
   // undefined
-  ComponentClass.defaultProps = { ...ComponentClass.defaultProps, state: {} };
+  if (!ComponentClass.defaultProps || ComponentClass.defaultProps.state) {
+    ComponentClass.defaultProps = { ...ComponentClass.defaultProps, state: {} }
+  }
+  // global , Will try to find a way to fix this.
+  let _instanceKey = null;
 
   class Wrapper extends Component {
-    constructor() {
-      super();
-    }
-
     componentWillMount() {
-      // set the initial state for the component
       const { setLocalState } = this.props;
       setLocalState(initialState);
     }
@@ -53,28 +36,56 @@ const UI = (key,
     }
   }
 
+  const checkedInstanceKey = (state, instanceKey) => {
+    // key has not been registered, component has no key
+    if (!state.ui[key] && !instanceKey && instanceKey !== 0) {
+      _instanceKey = 0;
+      return;
+    }
+    // key has been registered, component has no key
+    if (state.ui[key] && !instanceKey && instanceKey !== 0) {
+      const keyArray = Object.keys(state.ui[key]);
+      _instanceKey = keyArray.length;
+      return;
+    }
+    // key has been registered and already has a key
+    if (state.ui[key] && (instanceKey || intanceKey === 0)) {
+      _instanceKey = instanceKey;
+      return;
+    }
+    console.log('unhandled case');
+  };
+
   const mergeStateToProps = (state, ownProps) => {
+    console.log('ownProps', ownProps);
+    const { instanceKey } = ownProps;
+    // console.log('ownProps', ownProps);
+    // set a new instance key if it does not have one.
+    checkedInstanceKey(state, instanceKey);
+
     if (typeof mapStateToProps === 'function') {
       return {
         ...mapStateToProps(state),
         state: state.ui[key],
         uiKey: key,
+        instanceKey: _instanceKey,
       };
     }
 
     return {
       state: state.ui[key],
       uiKey: key,
+      instanceKey: _instanceKey,
     };
   };
 
   const mergeDispatchToProps = (dispatch, ownProps) => {
     // Curry the key in setState
-    const setLocalState = actions.setLocalState(key);
+    const setLocalState = actions.setLocalState(key)(_instanceKey);
     if (typeof mapDispatchToProps === 'function') {
       return {
-        ...bindActionCreators({ ...actions, setLocalState }, dispatch),
         ...mapDispatchToProps(dispatch),
+        ...bindActionCreators({ ...actions, setLocalState }, dispatch),
       };
     }
     return {
@@ -86,3 +97,7 @@ const UI = (key,
 };
 
 export default UI;
+
+// [] -> should be an array of objects.
+// Key should be assigned automatically, get rid of singletons
+// just use an array and keep the keys.

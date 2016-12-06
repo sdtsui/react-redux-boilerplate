@@ -25,18 +25,7 @@ const Blog = (props) => {
         <BlogPost
           key={i}
           title={post.title}
-          uiKey={prefix + i}
         />);
-    });
-  };
-  /**
-   * Renders blog posts
-   * @param posts
-   */
-  const blogPosts2 = (posts) => {
-    return posts.map((post, i) => {
-      return (
-        <BlogPost2 key={i} title={post.title}/>);
     });
   };
   return (
@@ -68,9 +57,7 @@ const Blog = (props) => {
       <button onClick={props.sayHi}>
         sayHi
       </button>
-      {blogPosts(posts, 'test')}
-      {blogPosts(posts, 'test2')}
-      {blogPosts2(posts)}
+      {blogPosts(posts)}
     </div>
   );
 };
