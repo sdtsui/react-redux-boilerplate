@@ -12,5 +12,5 @@ Object.keys(document.defaultView).forEach(
 );
 
 global.navigator = {
-  userAgent: 'node.js'
+  userAgent: 'node.js',
 };

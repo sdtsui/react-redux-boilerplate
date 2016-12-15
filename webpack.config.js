@@ -4,12 +4,12 @@ const postCssConfig = require('./postcss.config');
 
 module.exports = {
   entry: [
-    './src/index.js'
+    './src/index.js',
   ],
   output: {
     path: __dirname,
     publicPath: '/',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
   module: {
     loaders: [
@@ -27,7 +27,7 @@ module.exports = {
           'style-loader',
           'css-loader?importLoaders=1',
           'postcss-loader',
-          'sass'
+          'sass',
         ],
       },
       {
@@ -41,11 +41,11 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['', '.js', '.jsx']
+    extensions: ['', '.js', '.jsx'],
   },
   devServer: {
     historyApiFallback: true,
-    contentBase: './'
+    contentBase: './',
   },
   eslint: {
     failOnWarning: false,
@@ -54,8 +54,8 @@ module.exports = {
   plugins: [
     new Dotenv({
       path: './.env', // if not simply .env
-      safe: true // lets load the .env.example file as well
-    })
+      safe: true, // lets load the .env.example file as well
+    }),
   ],
   postcss: postCssConfig(webpack),
 };

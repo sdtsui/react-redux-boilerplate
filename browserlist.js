@@ -1,7 +1,9 @@
 // @flow
-// supported browsers
-
-let browsers:[string] = [
+/**
+ * Used by autoprefixer and stylelint
+ * @type {[*]}
+ */
+const browsers:[string] = [
   'Chrome >= 25',
   'Firefox >= 15',
   'IE >= 9',

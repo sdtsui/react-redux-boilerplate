@@ -1,1 +1,4 @@
+# Add folders that you do not want es-lint to lint
+# Folders
 node_modules/
+# Files

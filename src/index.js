@@ -5,12 +5,12 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import routes from './routes';
 import reducers from './reducer';
-import thunk from 'redux-thunk'
-import reduxScopeMiddleware from './helpers/middleware'
+import thunk from 'redux-thunk';
+import reduxScopeMiddleware from './helpers/middleware';
 
 const middleware = [
   thunk,
-  reduxScopeMiddleware
+  reduxScopeMiddleware,
 ];
 const initialState = {};
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

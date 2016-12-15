@@ -1,4 +1,5 @@
-const browserlist = require('./browserlist');
+// @flow
+var browserlist = require('./browserlist');
 
 module.exports = {
   "extends": "stylelint-config-standard",
