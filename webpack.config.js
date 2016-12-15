@@ -1,44 +1,22 @@
-const webpack = require('webpack');
-const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
-const path = require('path');
-
-const flowConfig = {
-  restartFlow: true,
-  binaryPath: path.join(__dirname, 'node_modules', 'flow-bin', 'vendor', 'flow'),
-};
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
   entry: [
-    './src/index.js',
+    './src/index.js'
   ],
   output: {
     path: __dirname,
     publicPath: '/',
-    filename: 'bundle.js',
+    filename: 'bundle.js'
   },
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
-    }),
-    new FlowStatusWebpackPlugin(flowConfig),
-  ],
   module: {
-    preLoaders: [
-      {
-        test: /\.js$/,
-        loader: 'eslint-loader',
-        exclude: /node_modules/,
-        includes: '.src/',
-      },
-    ],
     loaders: [
       {
         exclude: /node_modules/,
         loader: 'babel',
         query: {
           presets: ['react', 'es2015', 'stage-1'],
+          plugins:['transform-decorators-legacy'],
         },
       },
       {
@@ -59,15 +37,21 @@ module.exports = {
       },
     ],
   },
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
+  devServer: {
+    historyApiFallback: true,
+    contentBase: './'
+  },
   eslint: {
     failOnWarning: false,
     failOnError: false,
   },
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-  },
-  devServer: {
-    historyApiFallback: true,
-    contentBase: './',
-  },
+  plugins: [
+    new Dotenv({
+      path: './.env', // if not simply .env
+      safe: true // lets load the .env.example file as well
+    })
+  ]
 };

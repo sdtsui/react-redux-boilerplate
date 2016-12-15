@@ -1,9 +1,15 @@
 import React from 'react';
-import { Route, Router, browserHistory } from 'react-router';
-import App from './components/App';
+import { Route, Router, browserHistory, IndexRoute } from 'react-router';
+import App from './pages/App';
 
-export default (
-  <Router history={browserHistory}>
-    <Route path="/" component={App} />
-  </Router>
-);
+/**
+ * Has access to the redux store. Useful for validation purposes
+ * @param store
+ */
+export default (store) => {
+  return (
+    <Router history={browserHistory}>
+      <Route path="/" component={App}/>
+    </Router>
+  );
+}

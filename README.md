@@ -7,19 +7,9 @@
     npm start
 ```
 
-### Features ###
-1. eslint AirBnB
-2. flow
-3. scss, css loaders
-4. redux
-5. react-router
-
-## Data structures ##
-1. ImmutableJs
-
 ### eslint setup ###
 To use es-lint in webstorm:
-![webstorm](_misc/eslint-webstorm.png)
+![webstorm](./_misc/eslint-webstorm.png)
 
 ### Flow + webstorm setup ###
 To use in webstorm:
@@ -85,3 +75,12 @@ Add this to .flowconfig
  [libs]
  .*/node_modules/immutable/dist/immutable.js.flow
  ```
+ ## linting CSS/SCSS
+ ```
+    npm run stylelint
+ ```
+ 
+  ## formating CSS/SCSS
+  ```
+     npm run stylefmt
+  ```

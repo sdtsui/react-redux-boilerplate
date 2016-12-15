@@ -5,13 +5,6 @@
     "react"
   ],
   "plugins": [
-    [
-      "typecheck",
-      {
-        "disable": {
-          "production": true
-        }
-      }
-    ]
+    "transform-decorators-legacy"
   ]
 }
