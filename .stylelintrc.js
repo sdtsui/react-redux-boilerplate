@@ -4,7 +4,6 @@ module.exports = {
   "extends": "stylelint-config-standard",
   "rules": {
     "color-named": "never",
-    "color-no-hex": false,
     "font-family-name-quotes": "always-where-recommended",
     "font-weight-notation": "numeric",
     "function-url-quotes": "always",
@@ -216,7 +215,7 @@ module.exports = {
     "rule-non-nested-empty-line-before": [
       "always-multi-line",
       {
-        "ignore": [
+        "except": [
           "after-single-line-comment"
         ]
       }
