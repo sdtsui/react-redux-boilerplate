@@ -1,4 +1,6 @@
-{
+const browserlist = require('./browserlist');
+
+module.exports = {
   "extends": "stylelint-config-standard",
   "rules": {
     "color-named": "never",
@@ -241,11 +243,11 @@
     "no-unsupported-browser-features": [
       true,
       {
-        "browsers": "Chrome >= 25, Firefox >= 15, IE >= 9, iOS >= 5, Safari >= 7",
+        "browsers": browserlist,
         "ignore": [
           "rem"
         ]
       }
     ]
   }
-}
+};
