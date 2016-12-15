@@ -84,3 +84,7 @@ Add this to .flowconfig
   ```
      npm run stylefmt
   ```
+  
+  ## kill port
+  `lsof -i :8080` 
+  `kill -9 PID` 

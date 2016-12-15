@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const postCssConfig = require('./postcss.config');
 
 module.exports = {
   entry: [
@@ -16,16 +18,17 @@ module.exports = {
         loader: 'babel',
         query: {
           presets: ['react', 'es2015', 'stage-1'],
-          plugins:['transform-decorators-legacy'],
+          plugins: ['transform-decorators-legacy'],
         },
       },
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader',
-      },
-      {
-        test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
+        test: /\.s?css$/,
+        loaders: [
+          'style-loader',
+          'css-loader?importLoaders=1',
+          'postcss-loader',
+          'sass'
+        ],
       },
       {
         test: /\.png$/,
@@ -53,5 +56,6 @@ module.exports = {
       path: './.env', // if not simply .env
       safe: true // lets load the .env.example file as well
     })
-  ]
+  ],
+  postcss: postCssConfig(webpack),
 };

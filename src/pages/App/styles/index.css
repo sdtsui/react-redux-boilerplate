@@ -1,0 +1,10 @@
+body {
+  display: flex;
+  height: 100vh;
+  background: linear-gradient(to bottom, #f00, #ff00e1);
+}
+
+.smile {
+  width: 100%;
+  color: #ffbf3a;
+}

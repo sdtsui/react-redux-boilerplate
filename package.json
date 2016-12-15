@@ -10,11 +10,14 @@
     "test": "mocha --compilers js:babel-core/register --require ./config/test_helper.js --recursive ./src/**/*.spec.js",
     "test:watch": "npm run test -- --watch",
     "lint": "./node_modules/eslint/bin/eslint.js . --ext .js --ext .jsx || true",
-    "flow": "./node_modules/flow-bin/vendor/flow; test $? -eq 0 -o $? -eq 2"
+    "flow": "./node_modules/flow-bin/vendor/flow; test $? -eq 0 -o $? -eq 2",
+    "stylefmt": "./node_modules/stylefmt/bin/cli.js --config .stylelintrc.js --ignore-path .stylelintignore --recursive {'**/*.scss','**/*.css'}",
+    "stylelint": "./node_modules/stylelint/dist/cli.js --config .stylelintrc.js {'**/*.scss','**/*.css'}"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "autoprefixer": "6.5.4",
     "babel-core": "^6.2.1",
     "babel-eslint": "7.0.0",
     "babel-loader": "^6.2.0",
@@ -34,11 +37,14 @@
     "file-loader": "0.9.0",
     "mocha": "^2.4.5",
     "morgan": "1.7.0",
+    "node-sass": "3.13.1",
     "nodemon": "1.10.2",
+    "postcss-loader": "1.2.1",
+    "postcss-smart-import": "0.6.3",
     "sass-loader": "4.0.2",
     "style-loader": "0.13.1",
     "stylefmt": "5.0.2",
-    "stylelint": "7.3.1",
+    "stylelint": "7.4.0",
     "stylelint-config-standard": "13.0.1",
     "url-loader": "0.5.7",
     "webpack-dev-server": "^1.14.0"
