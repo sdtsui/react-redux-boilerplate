@@ -11,6 +11,7 @@ module.exports = {
   },
   "plugins": [
     "react",
+    "flowtype",
   ],
   "rules": {
     "react/jsx-filename-extension": [
