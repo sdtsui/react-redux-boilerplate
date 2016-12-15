@@ -1,9 +1,9 @@
 {
-  "name": "redux-simple-starter",
+  "name": "react-redux-boilerplate",
   "version": "1.0.0",
-  "description": "Simple starter package for Redux with React and Babel support",
+  "description": "React redux starter package",
   "main": "index.js",
-  "repository": "git@github.com:StephenGrider/ReduxSimpleStarter.git",
+  "repository": "git@github.com:webdeveloperpr/react-redux-boilerplate.git",
   "scripts": {
     "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "server": "nodemon server.js",
