@@ -9,11 +9,11 @@
 
 ### eslint setup ###
 To use es-lint in webstorm:
-![webstorm](./_misc/eslint-webstorm.png)
+![webstorm](./_misc/images/eslint-webstorm.png)
 
 ### Flow + webstorm setup ###
 To use in webstorm:
-![webstorm](_misc/flow-webstorm.png)
+![webstorm](_misc/images/flow-webstorm.png)
 
 
 ### Flow + webpack setup ###
@@ -88,3 +88,4 @@ Add this to .flowconfig
   ## kill port
   `lsof -i :8080` 
   `kill -9 PID` 
+# pothole-tracker
