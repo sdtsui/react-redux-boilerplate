@@ -3,7 +3,7 @@
  * Used by autoprefixer and stylelint
  * @type {[*]}
  */
-const browsers:[string] = [
+const browsers = [
   'Chrome >= 25',
   'Firefox >= 15',
   'IE >= 9',
