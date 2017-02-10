@@ -1,0 +1,11 @@
+.star-button {
+  color: #222;
+  
+  &.isActive {
+    color: #ffa500;
+  }
+  
+  &:hover {
+    cursor: pointer;
+  }
+}

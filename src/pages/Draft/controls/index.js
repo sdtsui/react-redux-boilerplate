@@ -1,11 +1,11 @@
 import InlineControls from './InlineControls';
 import BlockControls from './BlockControls';
+import BlockStyleButton from './BlockStyleButton';
 import styleMap from './styleMap';
-import blockStyles from './blockStyles';
 
 export {
   InlineControls,
   BlockControls,
-  blockStyles,
+  BlockStyleButton,
   styleMap,
 };

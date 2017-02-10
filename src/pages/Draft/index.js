@@ -1,12 +1,53 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
-import {
-  InlineControls,
-  BlockControls,
-  blockStyles,
-  styleMap,
-} from './controls';
+import { fromRawContentStateToEditorState } from './helpers';
+import { InlineControls, BlockControls, BlockStyleButton, styleMap } from './controls';
+import { toggleClassName, firstSelectedBlockHasTecClassName } from './blockStyling/applyBlockStyle';
+import blockStyleFn from './blockStyling/blockStyleFn';
+import './blockStyling/blockStyles.scss';
 import './styles.scss';
+
+const externalContentState = {
+  entityMap: {},
+  blocks: [
+    {
+      key: 'dl6r3',
+      text: 'Why Caralluma?',
+      type: 'header-one',
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+    {
+      key: 'a7d0r',
+      text: 'May Help you achieve your health and wellness goals',
+      type: 'unordered-list-item',
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+    {
+      key: '4ahjh',
+      text: 'May help you control your cravings',
+      type: 'unordered-list-item',
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+    {
+      key: '2b7a1',
+      text: 'may help you manage your stress',
+      type: 'unordered-list-item',
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {},
+    },
+  ],
+};
 
 const getEditorStyles = editorState => {
   // If the user changes block type before entering any text, we can
@@ -28,6 +69,12 @@ class RichEditor extends React.Component {
     this.focus = () => this.refs.editor.focus();
     this.onChange = editorState => this.setState({ editorState });
   }
+
+  componentWillMount = () => {
+    if (externalContentState) {
+      this.onChange(fromRawContentStateToEditorState(externalContentState));
+    }
+  };
 
   onTab = e => {
     const maxDepth = 4;
@@ -53,9 +100,21 @@ class RichEditor extends React.Component {
     );
   };
 
+  applyBlockStyle = blockStyle => {
+    const newEditorState = EditorState.forceSelection(
+      toggleClassName(this.state.editorState, blockStyle),
+      this.state.editorState.getSelection(),
+    );
+
+    this.onChange(newEditorState);
+  };
+
+
   render() {
     const { editorState } = this.state;
     const editorClassName = getEditorStyles(editorState);
+    const url = 'https://willianjusten.com.br/assets/img/react-svg/sprite.svg';
+
     console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
 
     return (
@@ -68,9 +127,19 @@ class RichEditor extends React.Component {
           editorState={editorState}
           onToggle={this.toggleInlineStyle}
         />
+        <BlockStyleButton
+          isActive={firstSelectedBlockHasTecClassName(editorState)}
+          applyBlockStyle={this.applyBlockStyle}
+          focus={this.focus}
+        />
+
+        <svg viewBox='0 0 16 16' className={`icon icon-globe`}>
+          <use xlinkHref={`${url}#icon-globe`} />
+        </svg>
+
         <div className={editorClassName} onClick={this.focus}>
           <Editor
-            blockStyleFn={blockStyles}
+            blockStyleFn={blockStyleFn}
             customStyleMap={styleMap}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}

@@ -1,0 +1,73 @@
+// .tec is a custom style
+li.tec,
+h1.tec,
+h2.tec,
+h3.tec,
+h4.tec,
+h5.tec,
+h6.tec {
+  position: relative;
+}
+
+li.tec {
+  margin-bottom: 10px;
+  padding-top: .5em;
+  padding-left: 1.5em;
+  padding-bottom: .5em;
+  background: blue;
+  font-family: 'Hoefler Text', Georgia, serif;
+  color: #fff;
+}
+
+h1.tec,
+h2.tec,
+h3.tec,
+h4.tec,
+h5.tec,
+h6.tec {
+  padding-left: 1.5em;
+  background: blue;
+  color: #fff;
+}
+
+li.tec::before,
+h1.tec::before,
+h2.tec::before,
+h3.tec::before,
+h4.tec::before,
+h5.tec::before,
+h6.tec::before {
+  content: "\f00c";
+  position: absolute;
+  left: 5px;
+  padding-right: .5em;
+  font-style: normal;
+  font-weight: 400;
+  font-size: .9em;
+  font-family: FontAwesome;
+  text-decoration: inherit;
+}
+
+// these are pre-defined styles
+li.tec,
+h1.tec,
+h2.tec,
+h3.tec,
+h4.tec,
+h5.tec,
+h6.tec {
+  position: relative;
+  color: #fe9b1a;
+  text-shadow: 0 1px 2px #636363;
+  font-family: Georgia, Arial, serif;
+}
+
+li.tec {
+  margin-bottom: 10px;
+  padding-top: .5em;
+  padding-left: 1.5em;
+  padding-bottom: .5em;
+  background: green;
+  font-family: 'Hoefler Text', Georgia, serif;
+  color: #fff;
+}
