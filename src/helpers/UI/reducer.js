@@ -1,31 +1,40 @@
 import makeReducer from '../makeReducer';
 
 // UITypes
-const uiTypes = ['SET_UI_STATE', 'REMOVE_UI_KEY'];
+const uiTypes = ['SET_UI_STATE', 'REMOVE_UI_KEY', 'REMOVE_INSTANCE_KEY'];
 
 // UI Actions
-const uiActions = prefixedTypes => {
+const uiActions = (prefixedTypes) => {
   // Set the ui state depending on the key
-  const setLocalState = key => instanceKey => (payload, scope = null) => {
+  const setLocalState = (key) => (instanceKey) => (payload) => {
     return {
       type: prefixedTypes.SET_UI_STATE,
       payload,
-      key: scope || key,
+      key,
       instanceKey,
     };
   };
 
-  const removeUIKey = key => {
+  const removeUIKey = (key) => {
     return {
       type: prefixedTypes.REMOVE_UI_KEY,
       key,
-    }
+    };
+  };
+
+  const removeInstanceKey = (key, instanceKey) => {
+    return {
+      type: prefixedTypes.REMOVE_INSTANCE_KEY,
+      key,
+      instanceKey,
+    };
   };
 
   return {
     setLocalState,
     removeUIKey,
-  }
+    removeInstanceKey
+  };
 };
 
 // UI Reducer
@@ -35,7 +44,7 @@ const uiReducer = (state, action, prefixedTypes) => {
       const { key, payload, instanceKey } = action;
       const newState = { ...state };
       // Keep an object of objects.
-      if (!newState[key] && instanceKey === 0) {
+      if (!newState[key]) {
         // first item in the array
         newState[key] = [];
         newState[key][0] = { ...payload };
@@ -53,6 +62,13 @@ const uiReducer = (state, action, prefixedTypes) => {
       const { key } = action;
       const newState = { ...state };
       delete newState[key];
+      return newState;
+    }
+
+    case prefixedTypes.REMOVE_INSTANCE_KEY: {
+      const { key, instanceKey } = action;
+      const newState = { ...state };
+      delete newState[key][instanceKey];
       return newState;
     }
 
