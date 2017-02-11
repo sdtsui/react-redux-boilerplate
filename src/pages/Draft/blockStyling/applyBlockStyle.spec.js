@@ -1,37 +1,183 @@
 import { expect } from 'chai';
-import { EditorState, SelectionState } from 'draft-js';
+import { fromJS } from 'immutable';
+import { EditorState, convertFromRaw } from 'draft-js';
 import {
   addClassNameToData,
   removeClassNameFromData,
   toggleClassName,
   firstSelectedBlockHasTecClassName,
+  getListsFromSelection
 } from './applyBlockStyle';
 
-describe.only('ApplyClassName tests', () => {
-
-
+describe('ApplyClassName tests', () => {
   describe('addClassNameToData', () => {
+    const contentState = {
+      entityMap: {},
+      blocks: [
+        {
+          key: '7du0s',
+          text: 'hello',
+          type: 'unstyled',
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+          data: {},
+        },
+      ],
+    };
+    const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+
     it('should add a classname to the block data', () => {
-      addClassNameToData(editorState, 'tec');
+      const newEditorState = addClassNameToData(editorState, 'tec');
+      const className = newEditorState.getCurrentContent()
+                                      .getFirstBlock()
+                                      .getData()
+                                      .get('className');
+      expect(className).to.deep.equal('tec');
     });
-
-    describe('removeClassNameFromData', () => {
-      it('should remove a classname from the block data', () => {
-
-      });
+  });
+  describe('removeClassNameFromData', () => {
+    const contentState = {
+      entityMap: {},
+      blocks: [
+        {
+          key: '7du0s',
+          text: 'hello',
+          type: 'unstyled',
+          depth: 0,
+          inlineStyleRanges: [],
+          entityRanges: [],
+          data: fromJS({ className: 'tec' }),
+        },
+      ],
+    };
+    const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+    it('should remove a classname from the block data', () => {
+      const newEditorState = removeClassNameFromData(editorState);
+      const className = newEditorState.getCurrentContent()
+                                      .getFirstBlock()
+                                      .getData()
+                                      .get('className');
+      expect(className).to.equal(undefined);
     });
-
-    describe('toggleClassName', () => {
-      it('should toggle a classname', () => {
-
-      });
+  });
+  describe('toggleClassName', () => {
+    it('should toggle a classname', () => {
+      const contentState = {
+        entityMap: {},
+        blocks: [
+          {
+            key: '7du0s',
+            text: 'hello',
+            type: 'unstyled',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+        ],
+      };
+      const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+      const editorStateWithClassName = toggleClassName(editorState, 'tec');
+      const toggledClassName = editorStateWithClassName.getCurrentContent().getFirstBlock().getData().get('className');
+      expect(toggledClassName).to.equal('tec');
     });
-
-    describe('firstSelectedBlockHasTecClassName', () => {
-      it('should check if the selected block has a tec className', () => {
-
-      });
+    it('should untoggle a classname', () => {
+      const contentState = {
+        entityMap: {},
+        blocks: [
+          {
+            key: '7du0s',
+            text: 'hello',
+            type: 'unstyled',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: fromJS({ className: 'tec' }),
+          },
+        ],
+      };
+      const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+      const editorStateWithClassName = toggleClassName(editorState, 'tec');
+      const toggledClassName = editorStateWithClassName.getCurrentContent().getFirstBlock().getData().get('className');
+      expect(toggledClassName).to.equal(undefined);
     });
-
+  });
+  describe('firstSelectedBlockHasTecClassName', () => {
+    it('should check if the selected block has a tec className', () => {
+      const contentState = {
+        entityMap: {},
+        blocks: [
+          {
+            key: '7du0s',
+            text: 'hello',
+            type: 'unstyled',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: fromJS({ className: 'tec' }),
+          },
+        ],
+      };
+      const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+      const hasClassName = firstSelectedBlockHasTecClassName(editorState);
+      expect(hasClassName).to.equal(true);
+    });
+    it('should should return false if no className exists', () => {
+      const contentState = {
+        entityMap: {},
+        blocks: [
+          {
+            key: '7du0s',
+            text: 'hello',
+            type: 'unstyled',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+        ],
+      };
+      const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+      const hasClassName = firstSelectedBlockHasTecClassName(editorState);
+      expect(hasClassName).to.equal(false);
+    });
+  });
+  describe('getListTypeChildrenFromSelection', () => {
+    const contentState = {
+      entityMap: {},
+      blocks: [
+        {
+          key: '7du11',
+          text: 'hello',
+          type: 'unstyled',
+        },
+        {
+          key: '7du02',
+          text: 'hello',
+          type: 'unordered-list-item',
+        },
+        {
+          key: '7du03',
+          text: 'hello',
+          type: 'unordered-list-item',
+        },
+        {
+          key: '7du04',
+          text: 'hello',
+          type: 'unordered-list-item',
+        },
+        {
+          key: '7du11',
+          text: 'hello',
+          type: 'unstyled',
+        },
+      ],
+    };
+    const editorState = EditorState.createWithContent(convertFromRaw(contentState));
+    const keys = getListsFromSelection(editorState);
+    it.only('should get all the children list blocks if a list is selected', () => {
+      console.log(keys);
+    });
   });
 });
