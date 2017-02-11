@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 import { fromJS } from 'immutable';
-import { EditorState, convertFromRaw } from 'draft-js';
+import { EditorState, convertFromRaw, SelectionState } from 'draft-js';
 import {
   addClassNameToData,
   removeClassNameFromData,
   toggleClassName,
   firstSelectedBlockHasTecClassName,
-  getListsFromSelection
+  getListsFromSelection,
 } from './applyBlockStyle';
 
 describe('ApplyClassName tests', () => {
@@ -158,6 +158,11 @@ describe('ApplyClassName tests', () => {
           type: 'unordered-list-item',
         },
         {
+          key: '7dus11',
+          text: 'hello',
+          type: 'unstyled',
+        },
+        {
           key: '7du03',
           text: 'hello',
           type: 'unordered-list-item',
@@ -168,16 +173,95 @@ describe('ApplyClassName tests', () => {
           type: 'unordered-list-item',
         },
         {
-          key: '7du11',
+          key: '7adu11',
           text: 'hello',
           type: 'unstyled',
         },
       ],
     };
+
     const editorState = EditorState.createWithContent(convertFromRaw(contentState));
-    const keys = getListsFromSelection(editorState);
+    const selection = SelectionState.createEmpty();
+    it('should return an empty list', () => {
+      const newSelection = selection.merge({
+        anchorKey: '7du11',
+        focusKey: '7du11',
+      });
+      const newEditorState = EditorState.acceptSelection(editorState, newSelection);
+      const keys = getListsFromSelection(newEditorState);
+      expect(keys).to.deep.equal([]);
+    });
+
+    xit('should get all the children list blocks if a list is selected', () => {
+      const newSelection = selection.merge({
+        anchorKey: '7du11',
+        focusKey: '7du03',
+      });
+      const newEditorState = EditorState.acceptSelection(editorState, newSelection);
+      const keys = getListsFromSelection(newEditorState);
+      expect(keys.length).to.deep.equal(3);
+    });
+
+    xit('should get all the children list blocks if a list is selected', () => {
+      const newSelection = selection.merge({
+        anchorKey: '7du04',
+        focusKey: '7adu11',
+      });
+      const newEditorState = EditorState.acceptSelection(editorState, newSelection);
+      const keys = getListsFromSelection(newEditorState);
+      expect(keys.length).to.deep.equal(2);
+    });
     it.only('should get all the children list blocks if a list is selected', () => {
-      console.log(keys);
+      const externalContentState = {
+        entityMap: {},
+        blocks: [
+          {
+            key: 'dl6r3',
+            text: 'Why Caralluma?',
+            type: 'header-one',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+          {
+            key: 'a7d0r',
+            text: 'May Help you achieve your health and wellness goals',
+            type: 'unordered-list-item',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+          {
+            key: '4ahjh',
+            text: 'May help you control your cravings',
+            type: 'unordered-list-item',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+          {
+            key: '2b7a1',
+            text: 'may help you manage your stress',
+            type: 'unordered-list-item',
+            depth: 0,
+            inlineStyleRanges: [],
+            entityRanges: [],
+            data: {},
+          },
+        ],
+      };
+      const editorState = EditorState.createWithContent(convertFromRaw(externalContentState));
+
+      const newSelection = selection.merge({
+        anchorKey: '2b7a1',
+        focusKey: '2b7a1',
+      });
+      const newEditorState = EditorState.acceptSelection(editorState, newSelection);
+      const keys = getListsFromSelection(newEditorState);
+      expect(keys).to.deep.equal(['2b7a1', '4ahjh', 'a7d0r']);
     });
   });
 });

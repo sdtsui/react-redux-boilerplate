@@ -113,9 +113,8 @@ class RichEditor extends React.Component {
   render() {
     const { editorState } = this.state;
     const editorClassName = getEditorStyles(editorState);
-    const url = 'https://willianjusten.com.br/assets/img/react-svg/sprite.svg';
 
-    console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
+    //console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
 
     return (
       <div className="RichEditor-root">
@@ -132,11 +131,6 @@ class RichEditor extends React.Component {
           applyBlockStyle={this.applyBlockStyle}
           focus={this.focus}
         />
-
-        <svg viewBox='0 0 16 16' className={`icon icon-globe`}>
-          <use xlinkHref={`${url}#icon-globe`} />
-        </svg>
-
         <div className={editorClassName} onClick={this.focus}>
           <Editor
             blockStyleFn={blockStyleFn}

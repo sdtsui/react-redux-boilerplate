@@ -1,12 +1,73 @@
 import { fromJS } from 'immutable';
-import { changeBlockData, removeBlockData, getSelectedBlockKeys } from '../helpers';
+import {
+  changeBlockData,
+  removeBlockData,
+  changeBlockDataForBlockKeys,
+  removeBlockDataForBlockKeys,
+} from '../helpers';
+
+const getListsFromSelection = editorState => {
+  const contentState = editorState.getCurrentContent();
+  const selection = editorState.getSelection();
+  const isCollapsed = selection.isCollapsed();
+  const getBlockType = block => block.getType();
+  const getBlockKey = block => block.getKey();
+  const getBlockBefore = blockKey => contentState.getBlockBefore(blockKey);
+  const getBlockAfter = blockKey => contentState.getBlockAfter(blockKey);
+  const isList = block => getBlockType(block) === 'unordered-list-item';
+  const anchorKey = selection.getStartKey();
+  const focusKey = selection.getEndKey();
+  const firstBlock = contentState.getBlockForKey(anchorKey);
+  const lastBlock = contentState.getBlockForKey(focusKey);
+  const isFirstBlockList = isList(firstBlock);
+  const isLastBlockList = isList(lastBlock);
+  let listBlocks = [];
+
+  if (isFirstBlockList) {
+    listBlocks.push(anchorKey);
+
+    let prevBlock = getBlockBefore(anchorKey);
+
+    while (prevBlock && isList(prevBlock)) {
+      const prevBlockKey = getBlockKey(prevBlock);
+      listBlocks.push(prevBlockKey);
+      prevBlock = getBlockBefore(prevBlockKey);
+    }
+  }
+
+  let nextBlock = getBlockAfter(anchorKey);
+  while (nextBlock && !isCollapsed && (getBlockKey(nextBlock) !== focusKey)) {
+    if (isList(nextBlock)) {
+      listBlocks.push(getBlockKey(nextBlock));
+    }
+    nextBlock = getBlockAfter(nextBlock);
+  }
+
+  if (!isLastBlockList) {
+    return listBlocks;
+  }
+
+  let extraBlock = isCollapsed ? getBlockAfter(focusKey) : lastBlock;
+  while (extraBlock && isList(extraBlock)) {
+    listBlocks.push(getBlockKey(extraBlock));
+    extraBlock = getBlockAfter(getBlockKey(extraBlock));
+  }
+
+  return listBlocks;
+};
 
 const addClassNameToData = (editorState, blockStyle) => {
-  return changeBlockData(editorState, fromJS({ className: blockStyle }));
+  const blockData = fromJS({ className: blockStyle });
+  const blockKeys = getListsFromSelection(editorState);
+  return changeBlockDataForBlockKeys(
+    changeBlockData(editorState, blockData), blockKeys, blockData);
 };
 
 const removeClassNameFromData = editorState => {
-  return removeBlockData(editorState, ['className']);
+  const pathName = ['className'];
+  const blockKeys = getListsFromSelection(editorState);
+  return removeBlockDataForBlockKeys(
+    removeBlockData(editorState, pathName), blockKeys, pathName);
 };
 
 const getFirstBlockClassName = editorState => {
@@ -31,54 +92,6 @@ const toggleClassName = (editorState, blockStyle) => {
   return firstSelectedBlockHasTecClassName(editorState)
     ? removeClassNameFromData(editorState, blockStyle)
     : addClassNameToData(editorState, blockStyle);
-};
-
-const getListsFromSelection = editorState => {
-  const contentState = editorState.getCurrentContent();
-  const selection = editorState.getSelection();
-  const isCollapsed = selection.isCollapsed();
-  const getBlockType = block => block.getType();
-  const getBlockKey = block => block.getKey();
-  const getBlockBefore = blockKey => contentState.getBlockBefore(blockKey);
-  const getBlockAfter = blockKey => contentState.getBlockAfter(blockKey);
-  const isList = block => getBlockType(block) === 'unordered-list-item';
-  const anchorKey = selection.getAnchorKey();
-  const focusKey = selection.getFocusKey();
-  const firstBlock = contentState.getBlockForKey(anchorKey);
-  const lastBlock = contentState.getBlockForKey(focusKey);
-  const isFirstBlockList = isList(firstBlock);
-  const isLastBlockList = isList(lastBlock);
-  let listBlocks = [];
-
-  if (isFirstBlockList) {
-    listBlocks.push(anchorKey); // already pushed anchorKey
-
-    let prevBlock = getBlockBefore(anchorKey);
-    while (prevBlock && isList(prevBlock)) {
-      listBlocks.push(getBlockKey(prevBlock));
-      prevBlock = getBlockBefore(prevBlock);
-    }
-  }
-
-  let nextBlock = getBlockAfter(anchorKey);
-  while (nextBlock && !isCollapsed && (getBlockKey(nextBlock) !== focusKey)) {
-    if (isList(nextBlock)) {
-      listBlocks.push(getBlockKey(nextBlock));
-    }
-    nextBlock = getBlockAfter(nextBlock);
-  }
-
-  if (!isLastBlockList) {
-    return listBlocks;
-  }
-
-  let extraBlock = isCollapsed ? getBlockAfter(focusKey) : lastBlock;
-  while (extraBlock && isList(extraBlock)) {
-    listBlocks.push(getBlockKey(extraBlock));
-    extraBlock = getBlockAfter(getBlockKey(extraBlock));
-  }
-
-  return listBlocks;
 };
 
 export {

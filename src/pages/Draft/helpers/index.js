@@ -18,6 +18,26 @@ const changeBlockData = (editorState, blockData, dataPath = []) => {
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
+const changeBlockDataForBlockKeys = (
+  editorState,
+  blockKeys,
+  blockData,
+  dataPath = []
+) => {
+  const oldContentState = editorState.getCurrentContent();
+  const newContentState = blockKeys.reduce(
+    (contentState, blockKey) => {
+      const block = contentState.getBlockForKey(blockKey);
+      const blockMap = contentState.getBlockMap();
+      const path = ['data', ...dataPath];
+      const newBlock = block.mergeIn(path, blockData);
+      return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
+    }, oldContentState
+  );
+
+  return EditorState.push(editorState, newContentState, 'change-block-data');
+};
+
 // This functionality has been taken from draft-js and modified for re-usability purposes.
 // Maps over the selected characters, and applies a function to each character.
 // Characters are of type CharacterMetadata. Look up the draftJS API to see what
@@ -113,6 +133,25 @@ const removeBlockData = (editorState, dataPath) => {
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
+const removeBlockDataForBlockKeys = (editorState, blockKeys, dataPath) => {
+  const oldContentState = editorState.getCurrentContent();
+  const newContentState = blockKeys.reduce(
+    (contentState, blockKey) => {
+      const block = contentState.getBlockForKey(blockKey);
+      const blockMap = contentState.getBlockMap();
+      const dataExists = block.get('data').hasIn(dataPath);
+      if (!dataExists) {
+        return contentState;
+      }
+
+      const newBlock = block.deleteIn(['data', ...dataPath]);
+      return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
+    }, oldContentState
+  );
+
+  return EditorState.push(editorState, newContentState, 'change-block-data');
+};
+
 const fromRawContentStateToEditorState = contentState => {
   return contentState
     ? EditorState.createWithContent(convertFromRaw(contentState))
@@ -130,12 +169,13 @@ const contentStateLogger = editorState => {
   console.log(newContentState);
 };
 
-
 export {
   changeBlockData,
+  changeBlockDataForBlockKeys,
   fromRawContentStateToEditorState,
   getSelectedBlocks,
   removeBlockData,
+  removeBlockDataForBlockKeys,
   getSelectedBlockKeys,
   mapSelectedCharacters,
   contentStateLogger,
