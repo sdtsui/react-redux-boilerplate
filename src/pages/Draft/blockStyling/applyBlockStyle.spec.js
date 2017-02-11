@@ -192,7 +192,7 @@ describe('ApplyClassName tests', () => {
       expect(keys).to.deep.equal([]);
     });
 
-    xit('should get all the children list blocks if a list is selected', () => {
+    it('should get all the children list blocks if a list is selected', () => {
       const newSelection = selection.merge({
         anchorKey: '7du11',
         focusKey: '7du03',
@@ -202,7 +202,7 @@ describe('ApplyClassName tests', () => {
       expect(keys.length).to.deep.equal(3);
     });
 
-    xit('should get all the children list blocks if a list is selected', () => {
+    it('should get all the children list blocks if a list is selected', () => {
       const newSelection = selection.merge({
         anchorKey: '7du04',
         focusKey: '7adu11',
@@ -211,7 +211,7 @@ describe('ApplyClassName tests', () => {
       const keys = getListsFromSelection(newEditorState);
       expect(keys.length).to.deep.equal(2);
     });
-    it.only('should get all the children list blocks if a list is selected', () => {
+    it('should get all the children list blocks if a list is selected', () => {
       const externalContentState = {
         entityMap: {},
         blocks: [

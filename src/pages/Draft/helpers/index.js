@@ -1,39 +1,28 @@
 import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
 import { Map } from 'immutable';
 
+const reduceBlockKeysAndAddData = (oldContentState, blockKeys, blockData, dataPath = []) => {
+  return blockKeys.reduce((contentState, blockKey) => {
+    const block = contentState.getBlockForKey(blockKey);
+    const blockMap = contentState.getBlockMap();
+    const path = ['data', ...dataPath];
+    const newBlock = block.mergeIn(path, blockData);
+    return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
+  }, oldContentState);
+};
+
 // only needs blocks an array of blocks
 const changeBlockData = (editorState, blockData, dataPath = []) => {
   const oldContentState = editorState.getCurrentContent();
   const selectedBlockKeys = getSelectedBlockKeys(editorState);
-  const newContentState = selectedBlockKeys.reduce(
-    (contentState, blockKey) => {
-      const block = contentState.getBlockForKey(blockKey);
-      const blockMap = contentState.getBlockMap();
-      const path = ['data', ...dataPath];
-      const newBlock = block.mergeIn(path, blockData);
-      return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
-    }, oldContentState
-  );
+  const newContentState = reduceBlockKeysAndAddData(oldContentState, selectedBlockKeys, blockData, dataPath);
 
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
-const changeBlockDataForBlockKeys = (
-  editorState,
-  blockKeys,
-  blockData,
-  dataPath = []
-) => {
+const changeBlockDataForBlockKeys = (editorState, blockKeys, blockData, dataPath = []) => {
   const oldContentState = editorState.getCurrentContent();
-  const newContentState = blockKeys.reduce(
-    (contentState, blockKey) => {
-      const block = contentState.getBlockForKey(blockKey);
-      const blockMap = contentState.getBlockMap();
-      const path = ['data', ...dataPath];
-      const newBlock = block.mergeIn(path, blockData);
-      return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
-    }, oldContentState
-  );
+  const newContentState = reduceBlockKeysAndAddData(oldContentState, blockKeys, blockData, dataPath);
 
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
@@ -113,10 +102,8 @@ const getSelectedBlockKeys = editorState => {
   return getSelectedBlocksAsList(editorState).map(block => block.key);
 };
 
-const removeBlockData = (editorState, dataPath) => {
-  const oldContentState = editorState.getCurrentContent();
-  const selectedBlockKeys = getSelectedBlockKeys(editorState);
-  const newContentState = selectedBlockKeys.reduce(
+const reduceAndRemoveBlockData = (oldContentState, blockKeys, dataPath) => {
+  return blockKeys.reduce(
     (contentState, blockKey) => {
       const block = contentState.getBlockForKey(blockKey);
       const blockMap = contentState.getBlockMap();
@@ -129,25 +116,18 @@ const removeBlockData = (editorState, dataPath) => {
       return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
     }, oldContentState
   );
+};
 
+const removeBlockData = (editorState, dataPath) => {
+  const oldContentState = editorState.getCurrentContent();
+  const selectedBlockKeys = getSelectedBlockKeys(editorState);
+  const newContentState = reduceAndRemoveBlockData(oldContentState, selectedBlockKeys, dataPath);
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
 const removeBlockDataForBlockKeys = (editorState, blockKeys, dataPath) => {
   const oldContentState = editorState.getCurrentContent();
-  const newContentState = blockKeys.reduce(
-    (contentState, blockKey) => {
-      const block = contentState.getBlockForKey(blockKey);
-      const blockMap = contentState.getBlockMap();
-      const dataExists = block.get('data').hasIn(dataPath);
-      if (!dataExists) {
-        return contentState;
-      }
-
-      const newBlock = block.deleteIn(['data', ...dataPath]);
-      return contentState.merge({ blockMap: blockMap.set(blockKey, newBlock) });
-    }, oldContentState
-  );
+  const newContentState = reduceAndRemoveBlockData(oldContentState, blockKeys, dataPath);
 
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
