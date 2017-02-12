@@ -1,12 +1,17 @@
 import React from 'react';
-import { Editor, EditorState, RichUtils, convertToRaw } from 'draft-js';
+import { fromJS } from 'immutable';
+import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
 import { fromRawContentStateToEditorState } from './helpers';
 import { InlineControls, BlockControls, BlockStyleButton, styleMap } from './controls';
-import { toggleClassName, firstSelectedBlockHasTecClassName } from './blockStyling/applyBlockStyle';
+import {
+  toggleClassName,
+  firstSelectedBlockHasTecClassName,
+} from './blockStyling/applyBlockStyle';
+import blockRenderer from './customBlocks/blockRenderer';
 import blockStyleFn from './blockStyling/blockStyleFn';
+import ImageControls from './controls/ImageControls';
 import './blockStyling/blockStyles.scss';
 import './styles.scss';
-
 const externalContentState = {
   entityMap: {},
   blocks: [
@@ -109,12 +114,25 @@ class RichEditor extends React.Component {
     this.onChange(newEditorState);
   };
 
+  addImage = () => {
+    const editorState = this.state.editorState;
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+      'atomic',
+      'IMMUTABLE',
+      fromJS({ src: 'http://i.imgur.com/zxy9hLn.jpg' })
+    );
+    const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+    const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
+    const editorStateWithNewBlock = AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
+    this.onChange(editorStateWithNewBlock);
+  };
 
   render() {
     const { editorState } = this.state;
     const editorClassName = getEditorStyles(editorState);
 
-    //console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
+    console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
 
     return (
       <div className="RichEditor-root">
@@ -131,8 +149,12 @@ class RichEditor extends React.Component {
           applyBlockStyle={this.applyBlockStyle}
           focus={this.focus}
         />
+        <ImageControls
+          addImage={this.addImage}
+        />
         <div className={editorClassName} onClick={this.focus}>
           <Editor
+            blockRendererFn={blockRenderer}
             blockStyleFn={blockStyleFn}
             customStyleMap={styleMap}
             editorState={editorState}

@@ -59,7 +59,8 @@
           ".jsx"
         ]
       }
-    ]
+    ],
+    "react/jsx-space-before-closing": "off"
   },
   "env": {
     "browser": true,
