@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 
-class ImageControls extends Component {
+class VideoControls extends Component {
   constructor(props) {
     super(props);
     this.state = {
       src: props.src,
-      type: 'image',
+      type: 'video',
     };
   }
 
@@ -13,7 +13,7 @@ class ImageControls extends Component {
     this.setState({ src });
   };
 
-  addImage = () => {
+  addVideo = () => {
     this.props.addMedia({
       src: this.state.src,
       type: this.state.type,
@@ -23,7 +23,7 @@ class ImageControls extends Component {
   render() {
     return (
       <span>
-        <button onClick={this.addImage}>Add Image</button>
+        <button onClick={this.addVideo}>Add Video</button>
         <input
           onChange={e => this.updateSrc(e.target.value)}
           type="text"
@@ -34,12 +34,12 @@ class ImageControls extends Component {
   }
 }
 
-ImageControls.defaultProps = {
-  src: 'http://i.imgur.com/zxy9hLn.jpg',
+VideoControls.defaultProps = {
+  src: '//www.youtube.com/embed/I_dN9IpmOZU',
 };
 
-ImageControls.propTypes = {
+VideoControls.propTypes = {
   addMedia: PropTypes.func.isRequired,
 };
 
-export default ImageControls;
+export default VideoControls;

@@ -3,15 +3,24 @@ import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
 import { fromRawContentStateToEditorState } from './helpers';
 import { InlineControls, BlockControls, BlockStyleButton, styleMap } from './controls';
+import AlignmentButton, {
+  toggleBlockAlignment,
+  getActiveBlockAlignment,
+  blockStyleFn,
+} from './alignment';
 import {
   toggleClassName,
   firstSelectedBlockHasTecClassName,
 } from './blockStyling/applyBlockStyle';
 import blockRenderer from './customBlocks/blockRenderer';
-import blockStyleFn from './blockStyling/blockStyleFn';
 import ImageControls from './controls/ImageControls';
+import VideoControls from './controls/VideoControls';
+// import plugin styles
+import './alignment/styles/alignment.css';
+import './alignment/styles/alignment-buttons.css';
 import './blockStyling/blockStyles.scss';
 import './styles.scss';
+
 const externalContentState = {
   entityMap: {},
   blocks: [
@@ -114,13 +123,20 @@ class RichEditor extends React.Component {
     this.onChange(newEditorState);
   };
 
-  addImage = () => {
+  toggleBlockAlignment = alignment => {
+    const newEditorState = toggleBlockAlignment(this.state.editorState, alignment);
+
+    return this.onChange(newEditorState);
+  };
+
+  addMedia = data => {
+    console.log('data', data);
     const editorState = this.state.editorState;
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'atomic',
       'IMMUTABLE',
-      fromJS({ src: 'http://i.imgur.com/zxy9hLn.jpg' })
+      fromJS(data)
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
@@ -150,7 +166,14 @@ class RichEditor extends React.Component {
           focus={this.focus}
         />
         <ImageControls
-          addImage={this.addImage}
+          addMedia={this.addMedia}
+        />
+        <VideoControls
+          addMedia={this.addMedia}
+        />
+        <AlignmentButton
+          activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
+          toggleBlockAlignment={this.toggleBlockAlignment}
         />
         <div className={editorClassName} onClick={this.focus}>
           <Editor

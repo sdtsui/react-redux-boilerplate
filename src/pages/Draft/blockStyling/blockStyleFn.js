@@ -7,10 +7,6 @@ const blockStyleFn = contentBlock => {
     classNames.push(blockData.get('className'));
   }
 
-  if (type === 'blockquote') {
-    classNames.push('RichEditor-blockquote');
-  }
-
   return classNames.join(' ');
 };
 

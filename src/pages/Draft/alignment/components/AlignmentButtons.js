@@ -2,7 +2,9 @@ import React, { PropTypes } from 'react';
 import Button from './Button';
 
 const AlignmentButtons = props => {
-  const toggleBlockAlignment = alignment => () => props.toggleBlockAlignment(alignment);
+  const toggleBlockAlignment = alignment => () => {
+    return props.toggleBlockAlignment(alignment);
+  };
   const isActive = alignment => props.activeBlockAlignment === alignment
     ? 'alignment-button isActive'
     : 'alignment-button';

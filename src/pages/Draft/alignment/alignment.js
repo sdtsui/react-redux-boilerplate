@@ -1,28 +1,118 @@
 import { EditorState } from 'draft-js';
 import { fromJS } from 'immutable';
 import { changeBlockData, getSelectedBlockKeys, removeBlockData } from './helpers';
+import { blockStyles } from '../draft-types/blockTypes';
+
+const {
+  HEADER_ONE,
+  HEADER_TWO,
+  HEADER_THREE,
+  HEADER_FOUR,
+  HEADER_FIVE,
+  HEADER_SIX,
+  CODE_BLOCK,
+  BLOCKQUOTE,
+  UL,
+  OL,
+  UNSTYLED,
+} = blockStyles;
+
+const textStyles = [
+  HEADER_ONE,
+  HEADER_TWO,
+  HEADER_THREE,
+  HEADER_FOUR,
+  HEADER_FIVE,
+  HEADER_SIX,
+  CODE_BLOCK,
+  BLOCKQUOTE,
+  UL,
+  OL,
+  UNSTYLED,
+];
 
 const dataPath = ['alignment'];
 
 const getBlockAlignment = contentBlock => contentBlock.getData().get('alignment');
 
-const blockStyleFn = contentBlock => {
-  const alignment = getBlockAlignment(contentBlock);
+const getBlockType = contentBlock => contentBlock.getType();
+
+const alignText = alignment => {
 
   if (!alignment) {
     return '';
   }
+
   if (alignment === 'center') {
     return 'text-center';
   }
+
   if (alignment === 'left') {
     return 'text-left';
   }
+
   if (alignment === 'right') {
     return 'text-right';
   }
 
   return '';
+};
+
+const alignAtomicBlock = alignment => {
+
+  if (!alignment) {
+    return '';
+  }
+
+  if (alignment === 'center') {
+    return 'atomic-center';
+  }
+
+  if (alignment === 'left') {
+    return 'atomic-left';
+  }
+
+  if (alignment === 'right') {
+    return 'atomic-right';
+  }
+
+  return '';
+};
+
+// Takes in a string or an array
+const isType = type => contentBlock => {
+  const types = [];
+  const mergedTypes = types.concat(type);
+  return mergedTypes.some(blockType => blockType === getBlockType(contentBlock));
+};
+
+const isTypeText = isType(textStyles);
+const isTypeAtomic = isType('atomic');
+const isTypeBlockQuote = isType(BLOCKQUOTE);
+
+const blockStyleFn = contentBlock => {
+  const alignment = getBlockAlignment(contentBlock);
+  const classNames = [];
+
+  if (isTypeAtomic(contentBlock) && alignment) {
+    const alignmentClassName = alignAtomicBlock(alignment);
+    if (alignmentClassName) {
+      classNames.push(alignmentClassName);
+    }
+  }
+
+  if (isTypeText(contentBlock) && alignment) {
+    const alignmentClassName = alignText(alignment);
+    if (alignmentClassName) {
+      classNames.push(alignmentClassName);
+    }
+  }
+
+  if (isTypeBlockQuote(contentBlock)) {
+    classNames.push('MyEditor-blockquote');
+  }
+
+  return classNames.join(' ');
 };
 
 const setBlockAlignment = (editorState, alignment) => {
@@ -67,17 +157,16 @@ const getActiveBlockAlignment = editorState => {
 
 const toggleBlockAlignment = (editorState, alignment) => {
   const activeAlignment = getActiveBlockAlignment(editorState);
-  if (activeAlignment === alignment) {
-    return removeBlockAlignment(editorState);
-  }
-  return setBlockAlignment(editorState, alignment);
+  return activeAlignment === alignment
+    ? removeBlockAlignment(editorState)
+    : setBlockAlignment(editorState, alignment);
 };
 
 export {
+  isTypeText,
+  isTypeAtomic,
+  isTypeBlockQuote,
   blockStyleFn,
-  getActiveBlockAlignment,
-  getBlockAlignment,
-  removeBlockAlignment,
-  setBlockAlignment,
   toggleBlockAlignment,
+  getActiveBlockAlignment,
 };

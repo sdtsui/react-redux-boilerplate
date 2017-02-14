@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
+import ImageBlock from './ImageBlock';
+import VideoBlock from './VideoBlock';
 
 class MediaComponent extends Component {
   render() {
-    console.log('rendered a Media Component');
     const { block, contentState } = this.props;
-    const data = contentState.getEntity(block.getEntityAt(0)).getData();
-    return <img src={data.get('src')}/>;
+    const entityKey = block.getEntityAt(0);
+    if (!entityKey) {
+      return null;
+    }
+    const data = contentState.getEntity(entityKey).getData();
+    const type = data.has('type') ? data.get('type') : '';
+
+    switch (type) {
+      case 'image': {
+        return <ImageBlock data={data}/>;
+      }
+      case 'video': {
+        return <VideoBlock data={data}/>;
+      }
+      default: {
+        return <div>Unknown block</div>;
+      }
+    }
   }
 }
 

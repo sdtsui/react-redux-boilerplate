@@ -9,3 +9,22 @@
 .text-right {
   text-align: right;
 }
+
+/* atomic-block alignment */
+.atomic-center {
+  align-items: flex-start;
+  justify-content: center;
+  display: flex;
+}
+
+.atomic-left {
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: flex;
+}
+
+.atomic-right {
+  justify-content: flex-end;
+  align-items: flex-start;
+  display: flex;
+}

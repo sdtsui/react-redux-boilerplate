@@ -47,6 +47,7 @@
     "chai": "^3.5.0",
     "classnames": "2.2.5",
     "draft-js": "0.10.0",
+    "draft-js-export-html": "0.5.2",
     "immutable": "3.8.1",
     "jsdom": "^8.1.0",
     "ramda": "0.23.0",
