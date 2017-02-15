@@ -6,12 +6,6 @@ const VideoComponent = props => {
   const src = data.get('src');
   return (
     <div className="media-component-video-wrapper">
-      {/* Hack to get the iframe to show full screen */}
-      <img
-        className="media-component-video-wrapper__image"
-        src="http://placehold.it/16x9"
-        alt="16:9 Image"
-      />
       <iframe
         className="media-component-video-wrapper__iframe"
         src={src}

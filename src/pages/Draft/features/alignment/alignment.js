@@ -1,40 +1,28 @@
 import { EditorState } from 'draft-js';
 import { fromJS } from 'immutable';
-import { changeBlockData, getSelectedBlockKeys, removeBlockData } from './helpers';
-import { blockStyles } from '../draft-types/blockTypes';
-
-const {
-  HEADER_ONE,
-  HEADER_TWO,
-  HEADER_THREE,
-  HEADER_FOUR,
-  HEADER_FIVE,
-  HEADER_SIX,
+import { changeBlockData, getSelectedBlockKeys, removeBlockData } from '../../core';
+import {
+  H1,
+  H2,
+  H3,
+  H4,
+  H5,
+  H6,
   CODE_BLOCK,
-  BLOCKQUOTE,
   UL,
   OL,
   UNSTYLED,
-} = blockStyles;
-
-const textStyles = [
-  HEADER_ONE,
-  HEADER_TWO,
-  HEADER_THREE,
-  HEADER_FOUR,
-  HEADER_FIVE,
-  HEADER_SIX,
-  CODE_BLOCK,
   BLOCKQUOTE,
-  UL,
-  OL,
-  UNSTYLED,
-];
+  ATOMIC,
+} from '../../core/types/block';
+
+const textStyles = [H1, H2, H3, H4, H5, H6, CODE_BLOCK, UL, OL, UNSTYLED];
 
 const dataPath = ['alignment'];
 
 const getBlockAlignment = contentBlock => contentBlock.getData().get('alignment');
 
+// move to reusable
 const getBlockType = contentBlock => contentBlock.getType();
 
 const alignText = alignment => {
@@ -87,10 +75,10 @@ const isType = type => contentBlock => {
 };
 
 const isTypeText = isType(textStyles);
-const isTypeAtomic = isType('atomic');
+const isTypeAtomic = isType(ATOMIC);
 const isTypeBlockQuote = isType(BLOCKQUOTE);
 
-const blockStyleFn = contentBlock => {
+const alignmentStyleFn = contentBlock => {
   const alignment = getBlockAlignment(contentBlock);
   const classNames = [];
 
@@ -111,7 +99,6 @@ const blockStyleFn = contentBlock => {
   if (isTypeBlockQuote(contentBlock)) {
     classNames.push('MyEditor-blockquote');
   }
-
   return classNames.join(' ');
 };
 
@@ -166,7 +153,7 @@ export {
   isTypeText,
   isTypeAtomic,
   isTypeBlockQuote,
-  blockStyleFn,
+  alignmentStyleFn,
   toggleBlockAlignment,
   getActiveBlockAlignment,
 };

@@ -1,25 +1,17 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
-import { fromRawContentStateToEditorState } from './helpers';
-import { InlineControls, BlockControls, BlockStyleButton, styleMap } from './controls';
-import AlignmentButton, {
-  toggleBlockAlignment,
-  getActiveBlockAlignment,
-  blockStyleFn,
-} from './alignment';
-import {
-  toggleClassName,
-  firstSelectedBlockHasTecClassName,
-} from './blockStyling/applyBlockStyle';
-import blockRenderer from './customBlocks/blockRenderer';
-import ImageControls from './controls/ImageControls';
-import VideoControls from './controls/VideoControls';
-// import plugin styles
-import './alignment/styles/alignment.css';
-import './alignment/styles/alignment-buttons.css';
-import './blockStyling/blockStyles.scss';
-import './styles.scss';
+import { fromRawContentStateToEditorState } from './core';
+import { InlineControls, BlockControls, ImageControls, VideoControls } from './features/controls';
+import AlignmentButton, { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
+import blockRendererFn from './editor/blockRenderFn';
+import customStyleMap from './editor/customStyleMap';
+import blockStyleFn from './editor/blockStyleFn';
+
+// css
+import './core/styles/styles.scss';
+import './features/alignment/styles/alignment.scss';
+import './features/alignment/styles/alignment-buttons.scss';
 
 const externalContentState = {
   entityMap: {},
@@ -114,23 +106,14 @@ class RichEditor extends React.Component {
     );
   };
 
-  applyBlockStyle = blockStyle => {
-    const newEditorState = EditorState.forceSelection(
-      toggleClassName(this.state.editorState, blockStyle),
-      this.state.editorState.getSelection(),
-    );
-
-    this.onChange(newEditorState);
-  };
-
   toggleBlockAlignment = alignment => {
     const newEditorState = toggleBlockAlignment(this.state.editorState, alignment);
 
     return this.onChange(newEditorState);
   };
 
+  // Move to customBlockStyleFn
   addMedia = data => {
-    console.log('data', data);
     const editorState = this.state.editorState;
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
@@ -160,11 +143,6 @@ class RichEditor extends React.Component {
           editorState={editorState}
           onToggle={this.toggleInlineStyle}
         />
-        <BlockStyleButton
-          isActive={firstSelectedBlockHasTecClassName(editorState)}
-          applyBlockStyle={this.applyBlockStyle}
-          focus={this.focus}
-        />
         <ImageControls
           addMedia={this.addMedia}
         />
@@ -177,9 +155,9 @@ class RichEditor extends React.Component {
         />
         <div className={editorClassName} onClick={this.focus}>
           <Editor
-            blockRendererFn={blockRenderer}
+            blockRendererFn={blockRendererFn}
             blockStyleFn={blockStyleFn}
-            customStyleMap={styleMap}
+            customStyleMap={customStyleMap}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}

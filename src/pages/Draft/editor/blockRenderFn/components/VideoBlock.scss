@@ -1,15 +1,8 @@
-.media-component-video-wrapper,
-.media-component-video-wrapper__image {
-  width: 100%;
-  height: auto;
-}
-
 .media-component-video-wrapper {
   position: relative;
-}
-
-.media-component-video-wrapper__image {
-  display: block;
+  padding-bottom: 28.1%;
+  flex-basis: 50%;
+  width: 50%;
 }
 
 .media-component-video-wrapper__iframe {

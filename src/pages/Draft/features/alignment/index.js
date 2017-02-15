@@ -1,9 +1,9 @@
 import AlignmentButton from './components/AlignmentButtons';
-import { blockStyleFn, toggleBlockAlignment, getActiveBlockAlignment } from './alignment';
+import { alignmentStyleFn, toggleBlockAlignment, getActiveBlockAlignment } from './alignment';
 
 export default AlignmentButton;
 export {
-  blockStyleFn,
+  alignmentStyleFn,
   toggleBlockAlignment,
   getActiveBlockAlignment,
 };
