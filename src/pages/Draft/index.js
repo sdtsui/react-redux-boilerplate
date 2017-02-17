@@ -8,12 +8,13 @@ import {
   ImageControls,
   VideoControls,
   FontSizeControls,
+  ColorControls,
+  FontFamilyControls,
 } from './features/controls';
-import AlignmentButton, {
-  toggleBlockAlignment,
-  getActiveBlockAlignment,
-} from './features/alignment';
-import { toggleFontSizeStyle } from './features/fontSize/fontSize';
+import AlignmentButton, { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
+import { toggleFontSize, currentFontSize } from './features/fontSize/fontSize';
+import { toggleColor, currentColor } from './features/fontColor/fontColor';
+import { toggleFontFamily, currentFontFamily } from './features/fontFamily/fontFamily';
 import blockRendererFn from './editor/blockRenderFn';
 import customStyleMap from './editor/customStyleMap';
 import blockStyleFn from './editor/blockStyleFn';
@@ -23,6 +24,7 @@ import customStyleFn from './editor/customStyleFn';
 import './core/styles/styles.scss';
 import './features/alignment/styles/alignment.scss';
 import './features/alignment/styles/alignment-buttons.scss';
+import './features/controls/controls.scss';
 
 const externalContentState = {
   entityMap: {},
@@ -123,11 +125,24 @@ class RichEditor extends React.Component {
     return this.onChange(newEditorState);
   };
 
-  toggleFontSizeStyle = fontSize => {
-    const newEditorState = toggleFontSizeStyle(this.state.editorState, fontSize);
+  toggleFontSize = fontSize => {
+    const newEditorState = toggleFontSize(this.state.editorState, fontSize);
 
     return this.onChange(newEditorState);
   };
+
+  toggleColor = color => {
+    const newEditorState = toggleColor(this.state.editorState, color);
+
+    return this.onChange(newEditorState);
+  };
+
+  toggleFontFamily = fontFamily => {
+    const newEditorState = toggleFontFamily(this.state.editorState, fontFamily);
+
+    return this.onChange(newEditorState);
+  };
+
 
   // Move to customBlockStyleFn
   addMedia = data => {
@@ -152,25 +167,38 @@ class RichEditor extends React.Component {
 
     return (
       <div className="RichEditor-root">
-        <BlockControls
-          editorState={editorState}
-          onToggle={this.toggleBlockType}
-        />
-        <InlineControls
-          editorState={editorState}
-          onToggle={this.toggleInlineStyle}
-        />
-        <ImageControls
-          addMedia={this.addMedia}
-        />
-        <VideoControls
-          addMedia={this.addMedia}
-        />
-        <AlignmentButton
-          activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
-          toggleBlockAlignment={this.toggleBlockAlignment}
-        />
-        <FontSizeControls toggleFontSizeStyle={this.toggleFontSizeStyle}/>
+        <div className="controls">
+          <BlockControls
+            editorState={editorState}
+            onToggle={this.toggleBlockType}
+          />
+          <InlineControls
+            editorState={editorState}
+            onToggle={this.toggleInlineStyle}
+          />
+          <ImageControls
+            addMedia={this.addMedia}
+          />
+          <VideoControls
+            addMedia={this.addMedia}
+          />
+          <AlignmentButton
+            activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
+            toggleBlockAlignment={this.toggleBlockAlignment}
+          />
+          <FontSizeControls
+            current={currentFontSize(this.state.editorState)}
+            toggle={this.toggleFontSize}
+          />
+          <ColorControls
+            current={currentColor(this.state.editorState)}
+            toggle={this.toggleColor}
+          />
+          <FontFamilyControls
+            current={currentFontFamily(this.state.editorState)}
+            toggle={this.toggleFontFamily}
+          />
+        </div>
         <div className={editorClassName} onClick={this.focus}>
           <Editor
             blockRendererFn={blockRendererFn}

@@ -1,8 +1,4 @@
-import {
-  EditorState,
-  Modifier,
-} from 'draft-js';
-import { mapSelectedCharacters } from '../../core';
+import makeDynamicStyles from '../dynamicStyles';
 
 export const prefix = 'FONT_SIZE_';
 export const FONT_SIZE_8PX = `${prefix}8px`;
@@ -34,45 +30,8 @@ export const fontSizes = [
   FONT_SIZE_72PX,
 ];
 
-export const addFontSizeStyle = (editorState, style) => {
-  const newContentState = Modifier.applyInlineStyle(
-    editorState.getCurrentContent(),
-    editorState.getSelection(),
-    style
-  );
-  return EditorState.push(editorState, newContentState, 'change-inline-style');
-};
+const fontSize = makeDynamicStyles(prefix, 'fontSize');
 
-export const filterFontSizeStyles = char => {
-  const charStyles = char.get('style');
-  const filteredStyles = charStyles.filter(style => !style.startsWith(prefix));
-  return char.set('style', filteredStyles);
-};
-
-export const removeFontSizeStyles = mapSelectedCharacters(filterFontSizeStyles);
-
-export const toggleFontSizeStyle = (editorState, style) => {
-  const editorStateWithoutColorStyles = removeFontSizeStyles(editorState);
-  const currentInlineStyles = editorState.getCurrentInlineStyle();
-
-  if (!currentInlineStyles.has(style)) {
-    return addFontSizeStyle(editorStateWithoutColorStyles, style);
-  }
-
-  return editorStateWithoutColorStyles;
-};
-
-// Used by the draft-js editor to pick up color styles and and return a new
-// css object. This opens the window to an unlimited amount of colors.
-export const customStyleFn = style => {
-  if (!style.size) {
-    return {};
-  }
-
-  const fontSizeStyle = style.filter(value => value.startsWith(prefix)).first();
-  if (fontSizeStyle) {
-    const fontSize = fontSizeStyle.replace(prefix, '');
-    return { fontSize };
-  }
-  return {};
-};
+export const toggleFontSize = fontSize.toggleDynamicStyles;
+export const currentFontSize = fontSize.currentStyle;
+export const fontSizeFn = fontSize.StyleFn;

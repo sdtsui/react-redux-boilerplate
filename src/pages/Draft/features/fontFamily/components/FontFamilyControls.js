@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
-import { fontSizes, prefix } from '../fontSize';
+import { styles, prefix } from '../fontFamily';
 
 const createOptions = () => {
-  return fontSizes.map(fontSize => {
+  return styles.map(fontSize => {
     return (
       <option
         key={fontSize}

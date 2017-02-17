@@ -4,6 +4,8 @@ import BlockStyleButton from './BlockStyleButton';
 import VideoControls from './VideoControls';
 import ImageControls from './ImageControls';
 import FontSizeControls from '../fontSize/components/FontSizeControls';
+import ColorControls from '../fontColor/components/ColorControls';
+import FontFamilyControls from '../fontFamily/components/FontFamilyControls';
 
 export {
   InlineControls,
@@ -12,4 +14,6 @@ export {
   VideoControls,
   ImageControls,
   FontSizeControls,
+  FontFamilyControls,
+  ColorControls,
 };
