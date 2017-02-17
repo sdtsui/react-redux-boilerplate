@@ -2,11 +2,22 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
 import { fromRawContentStateToEditorState } from './core';
-import { InlineControls, BlockControls, ImageControls, VideoControls } from './features/controls';
-import AlignmentButton, { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
+import {
+  InlineControls,
+  BlockControls,
+  ImageControls,
+  VideoControls,
+  FontSizeControls,
+} from './features/controls';
+import AlignmentButton, {
+  toggleBlockAlignment,
+  getActiveBlockAlignment,
+} from './features/alignment';
+import { toggleFontSizeStyle } from './features/fontSize/fontSize';
 import blockRendererFn from './editor/blockRenderFn';
 import customStyleMap from './editor/customStyleMap';
 import blockStyleFn from './editor/blockStyleFn';
+import customStyleFn from './editor/customStyleFn';
 
 // css
 import './core/styles/styles.scss';
@@ -112,6 +123,12 @@ class RichEditor extends React.Component {
     return this.onChange(newEditorState);
   };
 
+  toggleFontSizeStyle = fontSize => {
+    const newEditorState = toggleFontSizeStyle(this.state.editorState, fontSize);
+
+    return this.onChange(newEditorState);
+  };
+
   // Move to customBlockStyleFn
   addMedia = data => {
     const editorState = this.state.editorState;
@@ -153,11 +170,13 @@ class RichEditor extends React.Component {
           activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
           toggleBlockAlignment={this.toggleBlockAlignment}
         />
+        <FontSizeControls toggleFontSizeStyle={this.toggleFontSizeStyle}/>
         <div className={editorClassName} onClick={this.focus}>
           <Editor
             blockRendererFn={blockRendererFn}
             blockStyleFn={blockStyleFn}
             customStyleMap={customStyleMap}
+            customStyleFn={customStyleFn}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
