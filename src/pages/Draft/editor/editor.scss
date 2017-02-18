@@ -1,0 +1,17 @@
+.top-header,
+.content,
+.sidebar {
+  display: flex;
+}
+
+.content-wrapper {
+  display: flex;
+}
+
+.content {
+  flex: 8;
+}
+
+.sidebar {
+  flex: 2;
+}

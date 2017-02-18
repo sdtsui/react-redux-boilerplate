@@ -31,8 +31,6 @@ const makeDynamicStyles = (prefix = 'DEFAULT_PROP', cssProp = 'cssProperty') => 
     return editorStateWithoutColorStyles;
   };
 
-// Used by the draft-js editor to pick up color styles and and return a new
-// css object. This opens the window to an unlimited amount of colors.
   const StyleFn = style => {
     if (!style.size) {
       return {};
