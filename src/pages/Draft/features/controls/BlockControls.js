@@ -1,14 +1,13 @@
 import React from 'react';
-import StyleButton from './StyleButton';
 import * as blockTypes from '../../core/types/block';
 
 const BLOCK_TYPES = [
-  { label: 'H1', style: blockTypes.H1 },
-  { label: 'H2', style: blockTypes.H2 },
-  { label: 'H3', style: blockTypes.H3 },
-  { label: 'H4', style: blockTypes.H4 },
-  { label: 'H5', style: blockTypes.H5 },
-  { label: 'H6', style: blockTypes.H6 },
+  { label: 'Header 1', style: blockTypes.H1 },
+  { label: 'Header 2', style: blockTypes.H2 },
+  { label: 'Header 3', style: blockTypes.H3 },
+  { label: 'Header 4', style: blockTypes.H4 },
+  { label: 'Header 5', style: blockTypes.H5 },
+  { label: 'Header 6', style: blockTypes.H6 },
   { label: 'Blockquote', style: blockTypes.BLOCKQUOTE },
   { label: 'UL', style: blockTypes.UL },
   { label: 'OL', style: blockTypes.OL },
@@ -25,15 +24,20 @@ const BlockStyleControls = props => {
 
   return (
     <div className="RichEditor-controls">
-      {BLOCK_TYPES.map(type =>
-        <StyleButton
-          key={type.label}
-          active={type.style === blockType}
-          label={type.label}
-          onToggle={props.onToggle}
-          style={type.style}
-        />
-      )}
+      <select
+        value={blockType}
+        onChange={e => props.onToggle(e.target.value)}
+      >
+        {BLOCK_TYPES.map(type =>
+          <option
+            key={type.label}
+            label={type.label}
+            value={type.style}
+          >
+            {type.style}
+          </option>
+        )}
+      </select>
     </div>
   );
 };

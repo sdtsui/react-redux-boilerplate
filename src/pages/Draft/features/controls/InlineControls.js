@@ -1,14 +1,15 @@
 import React from 'react';
+import Icon from '../../core/components/Icon';
 import StyleButton from './StyleButton';
+import { BOLD, ITALIC, UNDERLINE, STRIKETHROUGH, CODE } from '../../core/types/inline';
 
 const INLINE_STYLES = [
-  { label: 'Bold', style: 'BOLD' },
-  { label: 'Italic', style: 'ITALIC' },
-  { label: 'Underline', style: 'UNDERLINE' },
-  { label: 'Monospace', style: 'CODE' },
-  { label: 'strikethrough', style: 'STRIKETHROUGH' },
+  { label: <Icon icon="bold"/>, style: BOLD },
+  { label: <Icon icon="italic"/>, style: ITALIC },
+  { label: <Icon icon="underline"/>, style: UNDERLINE },
+  { label: <Icon icon="code"/>, style: CODE },
+  { label: <Icon icon="strikethrough"/>, style: STRIKETHROUGH },
 ];
-
 
 const InlineStyleControls = props => {
   const { editorState } = props;
@@ -17,7 +18,7 @@ const InlineStyleControls = props => {
     <div className="RichEditor-controls">
       {INLINE_STYLES.map(type =>
         <StyleButton
-          key={type.label}
+          key={type.style}
           active={currentStyle.has(type.style)}
           label={type.label}
           onToggle={props.onToggle}

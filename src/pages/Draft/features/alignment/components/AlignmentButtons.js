@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Button from './Button';
+import Icon from '../../../core/components/Icon';
 
 const AlignmentButtons = props => {
   const toggleBlockAlignment = alignment => () => {
@@ -9,16 +9,16 @@ const AlignmentButtons = props => {
     ? 'alignment-button isActive'
     : 'alignment-button';
   return (
-    <div>
-      <Button className={isActive('left')} onClick={toggleBlockAlignment('left')}>
-        <span>L</span>
-      </Button>
-      <Button className={isActive('center')} onClick={toggleBlockAlignment('center')}>
-        <span>C</span>
-      </Button>
-      <Button className={isActive('right')} onClick={toggleBlockAlignment('right')}>
-        <span>R</span>
-      </Button>
+    <div className="RichEditor-styleButton">
+      <span className={isActive('left')} onClick={toggleBlockAlignment('left')}>
+        <Icon icon="align-left"/>
+      </span>
+      <span className={isActive('center')} onClick={toggleBlockAlignment('center')}>
+        <Icon icon="align-center"/>
+      </span>
+      <span className={isActive('right')} onClick={toggleBlockAlignment('right')}>
+        <Icon icon="align-right"/>
+      </span>
     </div>
   );
 };

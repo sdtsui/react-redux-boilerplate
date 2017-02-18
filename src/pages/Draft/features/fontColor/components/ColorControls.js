@@ -7,7 +7,6 @@ const PickerControls = props => {
     const prefixedColor = `${prefix}${color.hex}`;
     props.toggle(prefixedColor);
   };
-  console.log(props.current);
   return (
     <SketchPicker
       color={props.current.replace(prefix, '')}
