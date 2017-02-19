@@ -1,6 +1,7 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
+import NewControls from './features/controls/NewControls/index';
 import { fromRawContentStateToEditorState } from './core';
 // controls
 import {
@@ -19,7 +20,7 @@ import { toggleFontSize, currentFontSize } from './features/fontSize/fontSize';
 import { toggleFontFamily, currentFontFamily } from './features/fontFamily/fontFamily';
 import AlignmentButton, {
   toggleBlockAlignment,
-  getActiveBlockAlignment
+  getActiveBlockAlignment,
 } from './features/alignment';
 import blockStyleFn from './editor/blockStyleFn';
 import customStyleFn from './editor/customStyleFn';
@@ -172,62 +173,65 @@ class RichEditor extends React.Component {
     console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
 
     return (
-      <div>
-        <div className="top-header">
-          <div className="controls">
-            <BlockControls
-              editorState={editorState}
-              onToggle={this.toggleBlockType}
-            />
-            <InlineControls
-              editorState={editorState}
-              onToggle={this.toggleInlineStyle}
-            />
-            <ImageControls
-              addMedia={this.addMedia}
-            />
-            <VideoControls
-              addMedia={this.addMedia}
-            />
-            <AlignmentButton
-              activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
-              toggleBlockAlignment={this.toggleBlockAlignment}
-            />
-            <FontSizeControls
-              current={currentFontSize(this.state.editorState)}
-              toggle={this.toggleFontSize}
-            />
-            <FontFamilyControls
-              current={currentFontFamily(this.state.editorState)}
-              toggle={this.toggleFontFamily}
-            />
-          </div>
-        </div>
-        <div className="content-wrapper">
-          <div className="content">
-            <div className="RichEditor-root">
-              <div className={editorClassName} onClick={this.focus}>
-                <Editor
-                  blockRendererFn={blockRendererFn}
-                  blockStyleFn={blockStyleFn}
-                  customStyleMap={customStyleMap}
-                  customStyleFn={customStyleFn}
-                  editorState={editorState}
-                  handleKeyCommand={this.handleKeyCommand}
-                  onChange={this.onChange}
-                  onTab={this.onTab}
-                  placeholder="Tell a story..."
-                  ref="editor"
-                  spellCheck
-                />
-              </div>
+      <div className="text-editor-component">
+        <NewControls/>
+        <div>
+          <div className="top-header">
+            <div className="controls">
+              <BlockControls
+                editorState={editorState}
+                onToggle={this.toggleBlockType}
+              />
+              <InlineControls
+                editorState={editorState}
+                onToggle={this.toggleInlineStyle}
+              />
+              <ImageControls
+                addMedia={this.addMedia}
+              />
+              <VideoControls
+                addMedia={this.addMedia}
+              />
+              <AlignmentButton
+                activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
+                toggleBlockAlignment={this.toggleBlockAlignment}
+              />
+              <FontSizeControls
+                current={currentFontSize(this.state.editorState)}
+                toggle={this.toggleFontSize}
+              />
+              <FontFamilyControls
+                current={currentFontFamily(this.state.editorState)}
+                toggle={this.toggleFontFamily}
+              />
             </div>
           </div>
-          <div className="sidebar">
-            <ColorControls
-              current={currentColor(this.state.editorState)}
-              toggle={this.toggleColor}
-            />
+          <div className="content-wrapper">
+            <div className="content">
+              <div className="RichEditor-root">
+                <div className={editorClassName} onClick={this.focus}>
+                  <Editor
+                    blockRendererFn={blockRendererFn}
+                    blockStyleFn={blockStyleFn}
+                    customStyleMap={customStyleMap}
+                    customStyleFn={customStyleFn}
+                    editorState={editorState}
+                    handleKeyCommand={this.handleKeyCommand}
+                    onChange={this.onChange}
+                    onTab={this.onTab}
+                    placeholder="Tell a story..."
+                    ref="editor"
+                    spellCheck
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="sidebar">
+              <ColorControls
+                current={currentColor(this.state.editorState)}
+                toggle={this.toggleColor}
+              />
+            </div>
           </div>
         </div>
       </div>
