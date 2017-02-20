@@ -21,3 +21,9 @@ PickerControls.propTypes = {
 };
 
 export default PickerControls;
+
+
+// {/*<ColorControls*/}
+//   {/*current={currentColor(this.state.editorState)}*/}
+//   {/*toggle={this.toggleColor}*/}
+// {/*/>*/}

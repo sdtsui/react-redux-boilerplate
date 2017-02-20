@@ -6,6 +6,7 @@ $border-color: #d9d9d9;
   padding: 5px;
   background: $editorColor;
   color: $buttonTextColor;
+  border-bottom: 1px solid darken($border-color, 5%);
 }
 
 .text-editor-button {
@@ -48,7 +49,7 @@ $border-color: #d9d9d9;
 
 .button-select {
   position: absolute;
-  background: #fff;
+  background: transparent;
   border: 1px solid #d9d9d9;
   min-height: 35px;
   top: 100%;
@@ -59,15 +60,18 @@ $border-color: #d9d9d9;
   right: 0;
 }
 
+.button-option {
+  background: rgba(255, 255, 255, .9);
+}
+
 .button-option,
 .button-toggle .text-editor-button {
   padding: 5px;
   width: 100%;
-  background: #fff;
   &:hover {
     color: #fff;
     cursor: pointer;
-    background-color: #349fff;
+    background-color: rgba(52, 159, 255, .9);
     text-shadow: 0 0 1px #4c4c4c;
   }
 }

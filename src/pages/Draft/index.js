@@ -1,39 +1,26 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
-import NewControls from './features/controls/NewControls/index';
+import Toolbar from './features/Toolbar/index';
+//core
 import { fromRawContentStateToEditorState } from './core';
-// controls
-import {
-  InlineControls,
-  BlockControls,
-  ImageControls,
-  VideoControls,
-  FontSizeControls,
-  ColorControls,
-  FontFamilyControls,
-} from './features/controls';
-
-// control functions
+// features
 import { toggleColor, currentColor } from './features/fontColor/fontColor';
-import { toggleFontSize, currentFontSize } from './features/fontSize/fontSize';
-import { toggleFontFamily, currentFontFamily } from './features/fontFamily/fontFamily';
-import AlignmentButton, {
-  toggleBlockAlignment,
-  getActiveBlockAlignment,
-} from './features/alignment';
+import { toggleFontSize, currentFontSize } from './features/fontSize/index';
+import { toggleFontFamily, currentFontFamily } from './features/fontFamily/index';
+import { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
+// editor props
 import blockStyleFn from './editor/blockStyleFn';
 import customStyleFn from './editor/customStyleFn';
 import customStyleMap from './editor/customStyleMap';
 import blockRendererFn from './editor/blockRenderFn';
-
 // css
 import './core/styles/styles.scss';
 import './features/alignment/styles/alignment.scss';
 import './features/alignment/styles/alignment-buttons.scss';
-import './features/controls/controls.scss';
 import './editor/editor.scss';
 
+// remove when done
 const externalContentState = {
   entityMap: {},
   blocks: [
@@ -74,19 +61,6 @@ const externalContentState = {
       data: {},
     },
   ],
-};
-
-const getEditorStyles = editorState => {
-  // If the user changes block type before entering any text, we can
-  // either style the placeholder or hide it. Let's just hide it now.
-  let className = 'RichEditor-editor';
-  const contentState = editorState.getCurrentContent();
-  if (!contentState.hasText()) {
-    if (contentState.getBlockMap().first().getType() !== 'unstyled') {
-      className += ' RichEditor-hidePlaceholder';
-    }
-  }
-  return className;
 };
 
 class RichEditor extends React.Component {
@@ -151,7 +125,6 @@ class RichEditor extends React.Component {
     return this.onChange(newEditorState);
   };
 
-  // Move to customBlockStyleFn
   addMedia = data => {
     const editorState = this.state.editorState;
     const contentState = editorState.getCurrentContent();
@@ -168,71 +141,37 @@ class RichEditor extends React.Component {
 
   render() {
     const { editorState } = this.state;
-    const editorClassName = getEditorStyles(editorState);
-
-    console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
+    //console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
 
     return (
       <div className="text-editor-component">
-        <NewControls/>
-        <div>
-          <div className="top-header">
-            <div className="controls">
-              <BlockControls
-                editorState={editorState}
-                onToggle={this.toggleBlockType}
-              />
-              <InlineControls
-                editorState={editorState}
-                onToggle={this.toggleInlineStyle}
-              />
-              <ImageControls
-                addMedia={this.addMedia}
-              />
-              <VideoControls
-                addMedia={this.addMedia}
-              />
-              <AlignmentButton
-                activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
-                toggleBlockAlignment={this.toggleBlockAlignment}
-              />
-              <FontSizeControls
-                current={currentFontSize(this.state.editorState)}
-                toggle={this.toggleFontSize}
-              />
-              <FontFamilyControls
-                current={currentFontFamily(this.state.editorState)}
-                toggle={this.toggleFontFamily}
-              />
-            </div>
-          </div>
-          <div className="content-wrapper">
-            <div className="content">
-              <div className="RichEditor-root">
-                <div className={editorClassName} onClick={this.focus}>
-                  <Editor
-                    blockRendererFn={blockRendererFn}
-                    blockStyleFn={blockStyleFn}
-                    customStyleMap={customStyleMap}
-                    customStyleFn={customStyleFn}
-                    editorState={editorState}
-                    handleKeyCommand={this.handleKeyCommand}
-                    onChange={this.onChange}
-                    onTab={this.onTab}
-                    placeholder="Tell a story..."
-                    ref="editor"
-                    spellCheck
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="sidebar">
-              <ColorControls
-                current={currentColor(this.state.editorState)}
-                toggle={this.toggleColor}
-              />
-            </div>
-          </div>
+        <Toolbar
+          addMedia={this.addMedia}
+          activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
+          currentFontSize={currentFontSize(this.state.editorState)}
+          currentFontFamily={currentFontFamily(this.state.editorState)}
+          currentColor={currentColor(this.state.editorState)}
+          toggleBlockType={this.toggleBlockType}
+          toggleInlineStyle={this.toggleInlineStyle}
+          toggleColor={this.toggleColor}
+          toggleBlockAlignment={this.toggleBlockAlignment}
+          toggleFontSize={this.toggleFontSize}
+          toggleFontFamily={this.toggleFontFamily}
+        />
+        <div className="text-editor" onClick={this.focus}>
+          <Editor
+            blockRendererFn={blockRendererFn}
+            blockStyleFn={blockStyleFn}
+            customStyleMap={customStyleMap}
+            customStyleFn={customStyleFn}
+            editorState={editorState}
+            handleKeyCommand={this.handleKeyCommand}
+            onChange={this.onChange}
+            onTab={this.onTab}
+            placeholder="Tell a story..."
+            ref="editor"
+            spellCheck
+          />
         </div>
       </div>
     );

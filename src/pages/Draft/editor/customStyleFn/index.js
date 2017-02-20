@@ -1,6 +1,6 @@
-import { fontSizeFn } from '../../features/fontSize/fontSize';
+import { fontSizeFn } from '../../features/fontSize/index';
 import { colorStyleFn } from '../../features/fontColor/fontColor';
-import { fontFamilyFn } from '../../features/fontFamily/fontFamily';
+import { fontFamilyFn } from '../../features/fontFamily/index';
 
 const functionList = [fontSizeFn, colorStyleFn, fontFamilyFn];
 
@@ -15,7 +15,6 @@ const customStyleFn = style => {
     return { ...css, ...fn(style) };
   }, {});
 
-  console.log('result', result);
   return result;
 };
 

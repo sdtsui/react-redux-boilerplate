@@ -15,7 +15,7 @@ import {
   FONT_SIZE_12PX,
   FONT_SIZE_16PX,
   FONT_SIZE_24PX,
-} from './fontSize';
+} from './index';
 
 describe('toolbar color functionality', () => {
   describe('addColorStyle', () => {
