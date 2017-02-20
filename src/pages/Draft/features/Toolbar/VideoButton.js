@@ -61,7 +61,7 @@ class VideoButton extends Component {
 
     return (
       <Button
-        onClick={e => this.state.showModal ? e.preventDefault() : this.toggleModal()}>
+        onClick={e => this.state.showModal ? null : this.toggleModal()}>
         <Icon icon={'film'}/>
         {this.state.showModal ? imageModal : null}
       </Button>

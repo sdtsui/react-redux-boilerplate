@@ -1,5 +1,5 @@
 import { fontSizeFn } from '../../features/fontSize/index';
-import { colorStyleFn } from '../../features/fontColor/fontColor';
+import { colorStyleFn } from '../../features/fontColor/index';
 import { fontFamilyFn } from '../../features/fontFamily/index';
 
 const functionList = [fontSizeFn, colorStyleFn, fontFamilyFn];

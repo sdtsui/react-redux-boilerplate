@@ -25,7 +25,10 @@ const Toolbar = props => {
         toggleFontFamily={props.toggleFontFamily}
         currentFontFamily={props.currentFontFamily}
       />
-      <Colors/>
+      <Colors
+        toggleColor={props.toggleColor}
+        currentColor={props.currentColor}
+      />
       <Inline
         toggleInlineStyle={props.toggleInlineStyle}
       />
@@ -48,11 +51,13 @@ const Toolbar = props => {
 Toolbar.propTypes = {
   toggleBlockType: PropTypes.func.isRequired,
   toggleBlockAlignment: PropTypes.func.isRequired,
+  toggleColor: PropTypes.string.isRequired,
   toggleInlineStyle: PropTypes.func.isRequired,
   toggleFontFamily: PropTypes.func.isRequired,
   toggleFontSize: PropTypes.func.isRequired,
   activeBlockAlignment: PropTypes.string.isRequired,
   addMedia: PropTypes.func.isRequired,
+  currentColor: PropTypes.string.isRequired,
   currentFontFamily: PropTypes.string.isRequired,
   currentFontSize: PropTypes.string.isRequired,
 };

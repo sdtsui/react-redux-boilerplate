@@ -61,7 +61,7 @@ class ImageButton extends Component {
 
     return (
       <Button
-        onClick={e => this.state.showModal ? e.preventDefault() : this.toggleModal()}>
+        onClick={e => this.state.showModal ? null : this.toggleModal()}>
         <Icon icon={'image'}/>
         {this.state.showModal ? imageModal : null}
       </Button>

@@ -1,11 +1,11 @@
 import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
-import Toolbar from './features/Toolbar/index';
-//core
+import Toolbar from './features/Toolbar';
+// core
 import { fromRawContentStateToEditorState } from './core';
 // features
-import { toggleColor, currentColor } from './features/fontColor/fontColor';
+import { toggleColor, currentColor } from './features/fontColor/index';
 import { toggleFontSize, currentFontSize } from './features/fontSize/index';
 import { toggleFontFamily, currentFontFamily } from './features/fontFamily/index';
 import { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
