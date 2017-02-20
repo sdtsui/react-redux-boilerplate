@@ -1,9 +1,9 @@
 import React from 'react';
 import { fromJS } from 'immutable';
-import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
+import { Editor, EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import Toolbar from './features/Toolbar';
-//core
-import { fromRawContentStateToEditorState } from './core';
+// core
+import { fromRawContentStateToEditorState, contentStateLogger } from './core';
 // features
 import { toggleColor, currentColor } from './features/fontColor/index';
 import { toggleFontSize, currentFontSize } from './features/fontSize/index';
@@ -21,45 +21,619 @@ import './features/alignment/styles/alignment-buttons.scss';
 
 // remove when done
 const externalContentState = {
-  entityMap: {},
+  entityMap: {
+    0: {
+      type: "atomic",
+      mutability: "IMMUTABLE",
+      data: {
+        src: "https://i.ytimg.com/vi/_BwP0YnIpMs/maxresdefault.jpg",
+        description: "addDescription",
+        type: "image"
+      }
+    },
+    1: {
+      type: "atomic",
+      mutability: "IMMUTABLE",
+      data: {
+        src: "https://www.youtube.com/embed/sQAtpPQMMpE",
+        description: "addDescription",
+        type: "video"
+      }
+    }
+  },
   blocks: [
     {
-      key: 'dl6r3',
-      text: 'Why Caralluma?',
-      type: 'header-one',
+      key: "dl6r3",
+      text: "Viernes 24, de Enero de 2016",
+      type: "header-five",
       depth: 0,
-      inlineStyleRanges: [],
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 28,
+          style: "ITALIC"
+        },
+        {
+          offset: 0,
+          length: 28,
+          style: "UNDERLINE"
+        }
+      ],
       entityRanges: [],
-      data: {},
+      data: {
+        alignment: "left"
+      }
     },
     {
-      key: 'a7d0r',
-      text: 'May Help you achieve your health and wellness goals',
-      type: 'unordered-list-item',
+      key: "15h16",
+      text: "PRPBL 5man challenge",
+      type: "header-one",
       depth: 0,
-      inlineStyleRanges: [],
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 20,
+          style: "ITALIC"
+        },
+        {
+          offset: 0,
+          length: 5,
+          style: "FONT_COLOR_#d0021b"
+        }
+      ],
       entityRanges: [],
-      data: {},
+      data: {
+        alignment: "center"
+      }
     },
     {
-      key: '4ahjh',
-      text: 'May help you control your cravings',
-      type: 'unordered-list-item',
+      key: "34igq",
+      text: "",
+      type: "unstyled",
       depth: 0,
       inlineStyleRanges: [],
       entityRanges: [],
-      data: {},
+      data: {}
     },
     {
-      key: '2b7a1',
-      text: 'may help you manage your stress',
-      type: 'unordered-list-item',
+      key: "1gj6k",
+      text: "Torneo de gotcha en Carolina Paintball field  sabado 21 de agosto ven y disfruta del mejor evento de gotcha en la Isla de Puerto Rico.",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 134,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 134,
+          style: "FONT_SIZE_16px"
+        }
+      ],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "5djgb",
+      text: "",
+      type: "unstyled",
       depth: 0,
       inlineStyleRanges: [],
       entityRanges: [],
-      data: {},
+      data: {}
     },
-  ],
+    {
+      key: "f5dai",
+      text: "Premios",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 7,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 7,
+          style: "FONT_SIZE_24px"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "center"
+      }
+    },
+    {
+      key: "3qbj2",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "fon3p",
+      text: "Premios 5 man Division 3 :",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "BOLD"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_COLOR_#d0021b"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "6ohnh",
+      text: "$500.00 + 10 cajas de pintura ",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 30,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "31nmv",
+      text: "$200.00 + 3 cajas de pintura",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 28,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "9lqqu",
+      text: "$100.00",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 7,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "p4f",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "4ga2m",
+      text: "Premios 5 man Division 4 :",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "BOLD"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_COLOR_#d0021b"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "59tsv",
+      text: "$500.00 + 10 cajas de pintura ",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 30,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "5p3ve",
+      text: "$200.00 + 3 cajas de pintura",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 28,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "6mne9",
+      text: "$100.00",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 7,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "43htc",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "8s68r",
+      text: "Premios 5 man Division 5 :",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "BOLD"
+        },
+        {
+          offset: 0,
+          length: 26,
+          style: "FONT_COLOR_#d0021b"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "23rbm",
+      text: "$500.00 + 10 cajas de pintura ",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 30,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "e4ol0",
+      text: "$200.00 + 3 cajas de pintura",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 28,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "92vnq",
+      text: "$100.00",
+      type: "ordered-list-item",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 7,
+          style: "FONT_FAMILY_georgia"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "left"
+      }
+    },
+    {
+      key: "7986v",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "9mo4",
+      text: " ",
+      type: "atomic",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [
+        {
+          offset: 0,
+          length: 1,
+          key: 0
+        }
+      ],
+      data: {}
+    },
+    {
+      key: "8f2lt",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "ap1p2",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "3rg1q",
+      text: "Reglas",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 6,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 6,
+          style: "FONT_SIZE_24px"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "center"
+      }
+    },
+    {
+      key: "f9lmn",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "9ph7a",
+      text: "Torneo de gotcha en Carolina Paintball field  sabado 21 de agosto ven y disfruta del mejor evento de gotcha en la Isla de Puerto Rico.",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 134,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 134,
+          style: "FONT_SIZE_16px"
+        }
+      ],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "dtbpi",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "7qdu2",
+      text: " ",
+      type: "atomic",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [
+        {
+          offset: 0,
+          length: 1,
+          key: 1
+        }
+      ],
+      data: {}
+    },
+    {
+      key: "a1ei1",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "63pp4",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "a7d0r",
+      text: "Como registrarse?",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 17,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 17,
+          style: "FONT_SIZE_24px"
+        }
+      ],
+      entityRanges: [],
+      data: {
+        alignment: "center"
+      }
+    },
+    {
+      key: "f3bmf",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "p44q",
+      text: "Para registrarse haz click en el siguiente enlace y llena el formulario.",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [
+        {
+          offset: 0,
+          length: 72,
+          style: "FONT_FAMILY_georgia"
+        },
+        {
+          offset: 0,
+          length: 72,
+          style: "FONT_SIZE_16px"
+        }
+      ],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "d3s4e",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "4tbmu",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "6b8vu",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    },
+    {
+      key: "eep0i",
+      text: "",
+      type: "unstyled",
+      depth: 0,
+      inlineStyleRanges: [],
+      entityRanges: [],
+      data: {}
+    }
+  ]
 };
 
 class RichEditor extends React.Component {
@@ -139,9 +713,8 @@ class RichEditor extends React.Component {
   };
 
   render() {
+    contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
-    //console.log(JSON.stringify(convertToRaw(this.state.editorState.getCurrentContent()), null, 4));
-
     return (
       <div className="text-editor-component">
         <Toolbar

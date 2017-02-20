@@ -11,24 +11,18 @@ class MediaComponent extends Component {
       return null;
     }
     const data = contentState.getEntity(entityKey).getData();
-
-    let type;
-    if (Map.isMap(data)) {
-      type = data.has('type') ? data.get('type') : '';
-    } else {
-      const immutableData = fromJS(data);
-      type = immutableData.has(type ? data.get('type') : '');
-    }
+    const checkedData = Map.isMap(data) ? data : fromJS(data);
+    const type = checkedData.has('type') ? checkedData.get('type') : '';
 
     switch (type) {
       case 'image': {
-        return <ImageBlock data={data}/>;
+        return <ImageBlock data={checkedData}/>;
       }
       case 'video': {
-        return <VideoBlock data={data}/>;
+        return <VideoBlock data={checkedData}/>;
       }
       default: {
-        return <div>Unknown block</div>;
+        return null;
       }
     }
   }

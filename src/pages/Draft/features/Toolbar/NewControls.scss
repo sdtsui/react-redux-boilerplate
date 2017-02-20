@@ -7,15 +7,18 @@ $border-color: #d9d9d9;
   background: $editorColor;
   color: $buttonTextColor;
   border-bottom: 1px solid darken($border-color, 5%);
+  position: fixed;
+  width: 728px;
+  top: 0;
 }
 
 .text-editor-button {
   position: relative;
-  height: 35px;
+  height: 27px;
   display: inherit;
   justify-content: center;
   align-items: center;
-  min-width: 35px;
+  min-width: 27px;
 }
 
 .text-editor-button,
@@ -29,7 +32,7 @@ $border-color: #d9d9d9;
 
 .button-group {
   border: 1px solid $border-color;
-  padding: 0 5px;
+  padding: 0 2px;
   border-top: none;
   border-bottom: none;
   display: inline-flex;
@@ -87,7 +90,7 @@ $border-color: #d9d9d9;
 }
 
 .selected-option .button-option {
-  height: 33px;
+  height: 25px;
   display: inline-flex;
   justify-content: center;
   align-items: center;
