@@ -24,17 +24,22 @@ ColorPicker.propTypes = {
 };
 
 const Colors = props => {
+  const color =  props.currentColor ? props.currentColor.replace(prefix, '') : '#333';
+  const style = {
+    color,
+  };
+  console.log('style', style);
   return (
     <ButtonGroup>
       <Button>
         <Icon
           icon="square"
-          style={{ color: props.currentColor.replace(prefix, '') }}
+          style={style}
         />
-        <span style={{position: 'fixed', top: 0, right: 0 }}>
+        <span style={{ position: 'fixed', top: 0, right: 0 }}>
           <ColorPicker
             toggle={props.toggleColor}
-            current={props.currentColor}
+            current={color}
           />
         </span>
       </Button>

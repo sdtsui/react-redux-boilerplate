@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Map, fromJS } from 'immutable';
 import ImageBlock from './ImageBlock';
 import VideoBlock from './VideoBlock';
 
@@ -10,7 +11,14 @@ class MediaComponent extends Component {
       return null;
     }
     const data = contentState.getEntity(entityKey).getData();
-    const type = data.has('type') ? data.get('type') : '';
+
+    let type;
+    if (Map.isMap(data)) {
+      type = data.has('type') ? data.get('type') : '';
+    } else {
+      const immutableData = fromJS(data);
+      type = immutableData.has(type ? data.get('type') : '');
+    }
 
     switch (type) {
       case 'image': {

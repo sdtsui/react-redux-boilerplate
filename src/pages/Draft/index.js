@@ -2,7 +2,7 @@ import React from 'react';
 import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, convertToRaw, AtomicBlockUtils } from 'draft-js';
 import Toolbar from './features/Toolbar';
-// core
+//core
 import { fromRawContentStateToEditorState } from './core';
 // features
 import { toggleColor, currentColor } from './features/fontColor/index';
@@ -18,7 +18,6 @@ import blockRendererFn from './editor/blockRenderFn';
 import './core/styles/styles.scss';
 import './features/alignment/styles/alignment.scss';
 import './features/alignment/styles/alignment-buttons.scss';
-import './editor/editor.scss';
 
 // remove when done
 const externalContentState = {

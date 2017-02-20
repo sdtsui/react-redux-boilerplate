@@ -1,6 +1,13 @@
 .text-editor-component {
   border: 1px solid #ccc;
   position: relative;
+  max-width: 730px;
+  margin: 0 auto;
+}
+
+.text-editor-component img {
+  max-width: 100%;
+  height: auto;
 }
 
 .text-editor {
