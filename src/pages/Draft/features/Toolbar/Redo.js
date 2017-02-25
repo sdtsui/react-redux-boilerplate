@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
-import Icon from './components/Icon';
+import Icon from '../../core/components/Icon';
 
 const Redo = () => {
   return (

@@ -20,6 +20,7 @@ const changeBlockData = (editorState, blockData, dataPath = []) => {
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
+// if no path is specified it saves in the data property
 const changeBlockDataForBlockKeys = (editorState, blockKeys, blockData, dataPath = []) => {
   const oldContentState = editorState.getCurrentContent();
   const newContentState = reduceBlockKeysAndAddData(oldContentState, blockKeys, blockData, dataPath);

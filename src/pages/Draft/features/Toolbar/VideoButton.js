@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import Button from './components/Button';
-import Icon from './components/Icon';
-import Modal from './components/Modal';
-import ModalInputGroup from './components/ModalInputGroup';
+import Icon from '../../core/components/Icon';
+import Modal from '../../core/components/Modal';
+import ModalInputGroup from '../../core/components/ModalInputGroup';
 
 class VideoButton extends Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import Icon from './Icon';
+import Icon from '../../../core/components/Icon';
 
 const ButtonSelector = props => {
   return (

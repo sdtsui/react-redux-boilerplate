@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { SketchPicker } from 'react-color';
 import Button from './components/Button';
 import ButtonGroup from './components/ButtonGroup';
-import Icon from './components/Icon';
+import Icon from '../../core/components/Icon';
 import { prefix } from '../../features/fontColor';
 
 const ColorPicker = props => {

@@ -115,7 +115,12 @@ const externalContentState = {
         }
       ],
       entityRanges: [],
-      data: {}
+      data: fromJS({
+        width: '400px',
+        height: 'auto',
+        floatRight: false,
+        src: 'http://assets1.ignimgs.com/2014/12/02/league-of-legends-champions-art-1280x720jpg-14aa17_1280w.jpg',
+      }),
     },
     {
       key: "f1bsd",
@@ -148,62 +153,62 @@ class RichEditor extends React.Component {
       modal: null,
     };
     this.focus = () => this.refs.editor.focus();
-    this.onChange = editorState => this.setState({ editorState });
-
+    this.updateEditorState = editorState => this.setState({ editorState });
+    this.getEditorState = () => this.state.editorState;
   }
 
   componentWillMount = () => {
     if (externalContentState) {
-      this.onChange(fromRawContentStateToEditorState(externalContentState));
+      this.updateEditorState(fromRawContentStateToEditorState(externalContentState));
     }
   };
 
   onTab = e => {
     const maxDepth = 4;
-    this.onChange(RichUtils.onTab(e, this.state.editorState, maxDepth));
+    this.updateEditorState(RichUtils.onTab(e, this.state.editorState, maxDepth));
   };
 
   handleKeyCommand = command => {
     const { editorState } = this.state;
     const newState = RichUtils.handleKeyCommand(editorState, command);
     if (newState) {
-      this.onChange(newState);
+      this.updateEditorState(newState);
       return true;
     }
     return false;
   };
 
   toggleBlockType = blockType => {
-    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
+    this.updateEditorState(RichUtils.toggleBlockType(this.state.editorState, blockType));
   };
 
   toggleInlineStyle = inlineStyle => {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
+    this.updateEditorState(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle)
     );
   };
 
   toggleBlockAlignment = alignment => {
     const newEditorState = toggleBlockAlignment(this.state.editorState, alignment);
 
-    return this.onChange(newEditorState);
+    return this.updateEditorState(newEditorState);
   };
 
   toggleFontSize = fontSize => {
     const newEditorState = toggleFontSize(this.state.editorState, fontSize);
 
-    return this.onChange(newEditorState);
+    return this.updateEditorState(newEditorState);
   };
 
   toggleColor = color => {
     const newEditorState = toggleColor(this.state.editorState, color);
 
-    return this.onChange(newEditorState);
+    return this.updateEditorState(newEditorState);
   };
 
   toggleFontFamily = fontFamily => {
     const newEditorState = toggleFontFamily(this.state.editorState, fontFamily);
 
-    return this.onChange(newEditorState);
+    return this.updateEditorState(newEditorState);
   };
 
   addMedia = data => {
@@ -217,7 +222,7 @@ class RichEditor extends React.Component {
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
     const editorStateWithNewBlock = AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
-    this.onChange(editorStateWithNewBlock);
+    this.updateEditorState(editorStateWithNewBlock);
   };
 
   setModal = component => {
@@ -247,14 +252,18 @@ class RichEditor extends React.Component {
         />
         <div className="text-editor">
           <Editor
-            blockRendererFn={blockRendererFn(this.setModal)}
+            blockRendererFn={blockRendererFn(
+              this.setModal,
+              this.updateEditorState,
+              this.getEditorState
+              )}
             blockRenderMap={extendedBlockRenderMap}
             blockStyleFn={blockStyleFn}
             customStyleMap={customStyleMap}
             customStyleFn={customStyleFn}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
-            onChange={this.onChange}
+            onChange={this.updateEditorState}
             onTab={this.onTab}
             placeholder="Tell a story..."
             ref="editor"
