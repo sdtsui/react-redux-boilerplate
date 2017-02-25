@@ -13,7 +13,6 @@ class ImageComponent extends Component {
     return (
       <img
         ref="image"
-        onClick={this.focus}
         src={src}
       />
     );

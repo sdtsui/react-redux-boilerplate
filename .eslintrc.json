@@ -37,6 +37,7 @@
     "prefer-const": "off",
     "no-alert": "off",
     "react/jsx-first-prop-new-line": "off",
+    "react/forbid-prop-types": "off",
     "react/prefer-stateless-function": "off",
     "no-debugger": "off",
     "no-restricted-syntax": "off",

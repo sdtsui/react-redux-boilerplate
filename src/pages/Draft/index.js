@@ -14,6 +14,7 @@ import blockStyleFn from './editor/blockStyleFn';
 import customStyleFn from './editor/customStyleFn';
 import customStyleMap from './editor/customStyleMap';
 import blockRendererFn from './editor/blockRenderFn';
+import extendedBlockRenderMap from './editor/blockRenderMap';
 // css
 import './core/styles/styles.scss';
 import './features/alignment/styles/alignment.scss';
@@ -26,68 +27,30 @@ const externalContentState = {
       type: "atomic",
       mutability: "IMMUTABLE",
       data: {
-        src: "https://i.ytimg.com/vi/_BwP0YnIpMs/maxresdefault.jpg",
+        src: "https://www.gamecrate.com/sites/default/files/wp-content/uploads/2015/01/LoL_free_gifts_for_well-behaved_players1.jpg",
         description: "addDescription",
         type: "image"
-      }
-    },
-    1: {
-      type: "atomic",
-      mutability: "IMMUTABLE",
-      data: {
-        src: "https://www.youtube.com/embed/sQAtpPQMMpE",
-        description: "addDescription",
-        type: "video"
       }
     }
   },
   blocks: [
     {
-      key: "dl6r3",
-      text: "Viernes 24, de Enero de 2016",
-      type: "header-five",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 28,
-          style: "ITALIC"
-        },
-        {
-          offset: 0,
-          length: 28,
-          style: "UNDERLINE"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "15h16",
-      text: "PRPBL 5man challenge",
+      key: "bh71m",
+      text: "This is a title",
       type: "header-one",
       depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 20,
-          style: "ITALIC"
-        },
-        {
-          offset: 0,
-          length: 5,
-          style: "FONT_COLOR_#d0021b"
-        }
-      ],
+      inlineStyleRanges: [],
       entityRanges: [],
       data: {
+        media: {
+          type: "image",
+          src: "http://placehold.it/350x450"
+        },
         alignment: "center"
       }
     },
     {
-      key: "34igq",
+      key: "9v5pp",
       text: "",
       type: "unstyled",
       depth: 0,
@@ -96,332 +59,7 @@ const externalContentState = {
       data: {}
     },
     {
-      key: "1gj6k",
-      text: "Torneo de gotcha en Carolina Paintball field  sabado 21 de agosto ven y disfruta del mejor evento de gotcha en la Isla de Puerto Rico.",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 134,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 134,
-          style: "FONT_SIZE_16px"
-        }
-      ],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "5djgb",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "f5dai",
-      text: "Premios",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 7,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 7,
-          style: "FONT_SIZE_24px"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "center"
-      }
-    },
-    {
-      key: "3qbj2",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "fon3p",
-      text: "Premios 5 man Division 3 :",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "BOLD"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_COLOR_#d0021b"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "6ohnh",
-      text: "$500.00 + 10 cajas de pintura ",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 30,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "31nmv",
-      text: "$200.00 + 3 cajas de pintura",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 28,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "9lqqu",
-      text: "$100.00",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 7,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "p4f",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "4ga2m",
-      text: "Premios 5 man Division 4 :",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "BOLD"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_COLOR_#d0021b"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "59tsv",
-      text: "$500.00 + 10 cajas de pintura ",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 30,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "5p3ve",
-      text: "$200.00 + 3 cajas de pintura",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 28,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "6mne9",
-      text: "$100.00",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 7,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "43htc",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "8s68r",
-      text: "Premios 5 man Division 5 :",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "BOLD"
-        },
-        {
-          offset: 0,
-          length: 26,
-          style: "FONT_COLOR_#d0021b"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "23rbm",
-      text: "$500.00 + 10 cajas de pintura ",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 30,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "e4ol0",
-      text: "$200.00 + 3 cajas de pintura",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 28,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "92vnq",
-      text: "$100.00",
-      type: "ordered-list-item",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 7,
-          style: "FONT_FAMILY_georgia"
-        }
-      ],
-      entityRanges: [],
-      data: {
-        alignment: "left"
-      }
-    },
-    {
-      key: "7986v",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "9mo4",
+      key: "dn7o6",
       text: " ",
       type: "atomic",
       depth: 0,
@@ -436,200 +74,66 @@ const externalContentState = {
       data: {}
     },
     {
-      key: "8f2lt",
-      text: "",
-      type: "unstyled",
+      key: "3eir8",
+      text: "What is Lorem Ipsum?",
+      type: "header-four",
       depth: 0,
       inlineStyleRanges: [],
       entityRanges: [],
       data: {}
     },
     {
-      key: "ap1p2",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "3rg1q",
-      text: "Reglas",
+      key: "fhhac",
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
       type: "unstyled",
       depth: 0,
       inlineStyleRanges: [
         {
           offset: 0,
-          length: 6,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 6,
-          style: "FONT_SIZE_24px"
+          length: 11,
+          style: "BOLD"
         }
       ],
-      entityRanges: [],
-      data: {
-        alignment: "center"
-      }
-    },
-    {
-      key: "f9lmn",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
       entityRanges: [],
       data: {}
     },
     {
-      key: "9ph7a",
-      text: "Torneo de gotcha en Carolina Paintball field  sabado 21 de agosto ven y disfruta del mejor evento de gotcha en la Isla de Puerto Rico.",
-      type: "unstyled",
+      key: "3766t",
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      type: "layout",
       depth: 0,
       inlineStyleRanges: [
         {
           offset: 0,
-          length: 134,
-          style: "FONT_FAMILY_georgia"
+          length: 11,
+          style: "BOLD"
         },
         {
-          offset: 0,
-          length: 134,
-          style: "FONT_SIZE_16px"
+          offset: 574,
+          length: 11,
+          style: "BOLD"
         }
       ],
       entityRanges: [],
       data: {}
     },
     {
-      key: "dtbpi",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "7qdu2",
-      text: " ",
-      type: "atomic",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [
-        {
-          offset: 0,
-          length: 1,
-          key: 1
-        }
-      ],
-      data: {}
-    },
-    {
-      key: "a1ei1",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "63pp4",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "a7d0r",
-      text: "Como registrarse?",
-      type: "unstyled",
+      key: "f1bsd",
+      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+      type: "layout",
       depth: 0,
       inlineStyleRanges: [
         {
           offset: 0,
-          length: 17,
-          style: "FONT_FAMILY_georgia"
+          length: 11,
+          style: "BOLD"
         },
         {
-          offset: 0,
-          length: 17,
-          style: "FONT_SIZE_24px"
+          offset: 574,
+          length: 11,
+          style: "BOLD"
         }
       ],
-      entityRanges: [],
-      data: {
-        alignment: "center"
-      }
-    },
-    {
-      key: "f3bmf",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "p44q",
-      text: "Para registrarse haz click en el siguiente enlace y llena el formulario.",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 72,
-          style: "FONT_FAMILY_georgia"
-        },
-        {
-          offset: 0,
-          length: 72,
-          style: "FONT_SIZE_16px"
-        }
-      ],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "d3s4e",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "4tbmu",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "6b8vu",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "eep0i",
-      text: "",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [],
       entityRanges: [],
       data: {}
     }
@@ -639,9 +143,13 @@ const externalContentState = {
 class RichEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+    this.state = {
+      editorState: EditorState.createEmpty(),
+      modal: null,
+    };
     this.focus = () => this.refs.editor.focus();
     this.onChange = editorState => this.setState({ editorState });
+
   }
 
   componentWillMount = () => {
@@ -712,11 +220,18 @@ class RichEditor extends React.Component {
     this.onChange(editorStateWithNewBlock);
   };
 
+  setModal = component => {
+    this.setState({ modal: component });
+  };
+
   render() {
-    contentStateLogger(this.state.editorState);
+    // contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">
+        <div className="modal-mount">
+          {this.state.modal}
+        </div>
         <Toolbar
           addMedia={this.addMedia}
           activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
@@ -730,9 +245,10 @@ class RichEditor extends React.Component {
           toggleFontSize={this.toggleFontSize}
           toggleFontFamily={this.toggleFontFamily}
         />
-        <div className="text-editor" onClick={this.focus}>
+        <div className="text-editor">
           <Editor
-            blockRendererFn={blockRendererFn}
+            blockRendererFn={blockRendererFn(this.setModal)}
+            blockRenderMap={extendedBlockRenderMap}
             blockStyleFn={blockStyleFn}
             customStyleMap={customStyleMap}
             customStyleFn={customStyleFn}

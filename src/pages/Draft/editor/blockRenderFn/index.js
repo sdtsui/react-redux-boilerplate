@@ -1,7 +1,8 @@
 import MediaComponent from './components/MediaComponent';
-import { ATOMIC } from '../../core/types/block';
+import Layout1 from './components/Layout1';
+import { ATOMIC, LAYOUT } from '../../core/types/block';
 
-const blockRendererFn = contentBlock => {
+const blockRendererFn = setModal => contentBlock => {
   const type = contentBlock.getType();
   if (type === ATOMIC) {
     return {
@@ -10,6 +11,17 @@ const blockRendererFn = contentBlock => {
       props: {},
     };
   }
+
+  if (type === LAYOUT) {
+    return {
+      component: Layout1,
+      editable: true,
+      props: {
+        setModal,
+      },
+    };
+  }
+
   return null;
 };
 

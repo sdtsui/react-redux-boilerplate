@@ -70,7 +70,7 @@ class ImageButton extends Component {
 }
 
 ImageButton.defaultProps = {
-  src: 'http://i.imgur.com/zxy9hLn.jpg',
+  src: 'https://www.gamecrate.com/sites/default/files/wp-content/uploads/2015/01/LoL_free_gifts_for_well-behaved_players1.jpg',
 };
 
 ImageButton.propTypes = {
