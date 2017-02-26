@@ -41,7 +41,7 @@ const Layout1Modal = props => {
         />
       </ModalInputGroup>
       <ModalInputGroup title="Upload file">
-        <input type="file"/>
+        <input type="file" onChange={props.handleUpload}/>
       </ModalInputGroup>
     </Modal>
   );

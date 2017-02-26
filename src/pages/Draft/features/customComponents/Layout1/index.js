@@ -22,6 +22,7 @@ class Layout1 extends Component {
     const modal = (
       <Layout1Modal
         update={this.updateBlockData}
+        handleUpload={this.handleFileInput}
         closeModal={this.closeModal}
         src={data.get('src') || this.props.src}
         width={data.get('width') || this.props.width}
@@ -29,10 +30,10 @@ class Layout1 extends Component {
         floatRight={data.get('floatRight') || this.props.floatRight}
       />
     );
-    if (this.state.showModal === true) {
+    if (this.state.showModal) {
       this.props.blockProps.setModal(modal);
     }
-    if (prevState.showModal === true && this.state.showModal === false) {
+    if (prevState.showModal && !this.state.showModal) {
       this.props.blockProps.setModal(null);
     }
   }
@@ -55,6 +56,18 @@ class Layout1 extends Component {
 
   toggleModal = () => {
     this.setState({ showModal: !this.state.showModal });
+  };
+
+  handleFileInput = e => {
+    e.preventDefault();
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      return this.updateBlockData('src', reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
   render() {
