@@ -99,7 +99,6 @@ Layout1.defaultProps = {
   width: '450px',
   height: 'auto',
   floatRight: false,
-
 };
 
 Layout1.propTypes = {

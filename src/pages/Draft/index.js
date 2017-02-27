@@ -11,6 +11,7 @@ import { toggleFontFamily, currentFontFamily } from './features/fontFamily/index
 import { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
 // editor props
 import blockStyleFn from './editor/blockStyleFn';
+import handleReturn from './editor/handleReturn';
 import customStyleFn from './editor/customStyleFn';
 import customStyleMap from './editor/customStyleMap';
 import blockRendererFn from './editor/blockRenderFn';
@@ -141,8 +142,8 @@ const externalContentState = {
       ],
       entityRanges: [],
       data: {}
-    }
-  ]
+    },
+  ],
 };
 
 class RichEditor extends React.Component {
@@ -263,6 +264,7 @@ class RichEditor extends React.Component {
             customStyleFn={customStyleFn}
             editorState={editorState}
             handleKeyCommand={this.handleKeyCommand}
+            handleReturn={handleReturn(editorState, this.updateEditorState)}
             onChange={this.updateEditorState}
             onTab={this.onTab}
             placeholder="Tell a story..."

@@ -25,10 +25,10 @@ const Toolbar = props => {
         toggleFontFamily={props.toggleFontFamily}
         currentFontFamily={props.currentFontFamily}
       />
-      <Colors
-        toggleColor={props.toggleColor}
-        currentColor={props.currentColor}
-      />
+      {/*<Colors*/}
+        {/*toggleColor={props.toggleColor}*/}
+        {/*currentColor={props.currentColor}*/}
+      {/*/>*/}
       <Inline
         toggleInlineStyle={props.toggleInlineStyle}
       />
