@@ -28,6 +28,10 @@
   color: #fff;
 }
 
+.layout-1__image:hover {
+  cursor: pointer;
+}
+
 @media screen and (max-width: 550px) {
   .layout-1 {
     flex-direction: column;
@@ -50,7 +54,6 @@
   
   .layout-1 > .layout-1__image {
     position: relative;
-    left: -5px;
     float: left;
     height: auto;
     padding: 5px;
@@ -59,7 +62,7 @@
     box-shadow: 0 0 5px #777;
     border-radius: 5px;
     box-sizing: inherit;
-    margin: 5px 10px;
+    margin: 0 10px;
   }
   
   .layout-1.float-right > .layout-1__image {

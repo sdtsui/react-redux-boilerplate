@@ -8,30 +8,24 @@ export const addBlockData = (editorState, blockKey) =>
 // move to core
 export const insertNewBlock = editorState => {
   const contentState = editorState.getCurrentContent();
-  const blockMap = contentState.getBlockMap();
   const blockList = contentState.getBlockMap().toList();
   const selection = editorState.getSelection();
   const startKey = selection.getStartKey();
-
-  // get the block index where the cursor is at
-  const blockIndex = blockList.findIndex(block => {
-    return block.getKey() === startKey;
-  });
-
+  const blockIndex = blockList.findIndex(block => block.getKey() === startKey);
+  const blockMap = contentState.getBlockMap();
   const firstSlice = blockMap.slice(0, blockIndex + 1);
   const lastSlice = blockMap.slice(blockIndex + 1);
-  const newBlockContentState = ContentState.createFromText('');
-  const newBlockContentState2 = ContentState.createFromText('');
-  const spaceBlock = newBlockContentState.getBlockMap().first();
-  const unstyledBlock = newBlockContentState2.getBlockMap().first();
-  const selectionKey = unstyledBlock.getKey();
-  const newBlocks = [spaceBlock, unstyledBlock];
+  const tempBlockMap = ContentState.createFromText(';', ';').getBlockMap();
+  const fistBlock = tempBlockMap.first();
+  const lastBlock = tempBlockMap.last();
 
-  const newBlockMap = newBlocks.reduce((prevBlockMap, newBlock) => {
-    const newBlockKey = newBlock.getKey();
-    return prevBlockMap.set(newBlockKey, newBlock);
+  // Generate the blockMap
+  const newBlockMap = [fistBlock, lastBlock].reduce((prevBlockMap, newBlock) => {
+    return prevBlockMap.set(newBlock.getKey(), newBlock);
   }, firstSlice).concat(lastSlice);
 
+  // Modify selection to place cursor at new block
+  const selectionKey = lastBlock.getKey();
   const newSelection = SelectionState.createEmpty().merge({
     anchorKey: selectionKey,
     focusKey: selectionKey,
@@ -43,10 +37,10 @@ export const insertNewBlock = editorState => {
     blockMap: newBlockMap,
   });
 
+  // Force the editor to render the cursor correctly
   return EditorState.forceSelection(
     EditorState.push(editorState, newContentState),
-    newSelection
-  );
+    newSelection);
 };
 
 export const addNewLine = editorState => RichUtils.insertSoftNewline(editorState);
@@ -65,7 +59,7 @@ const listenFor = () => {
           updateEditorState(insertNewBlock(editorState));
         }
         timesPressed = 0;
-      }, 250);
+      }, 200);
       timesPressed++;
     }
   };

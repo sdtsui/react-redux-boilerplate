@@ -5,7 +5,9 @@ import { ATOMIC, LAYOUT } from '../../core/types/block';
 const blockRendererFn = (
   setModal,
   updateEditorState,
-  getEditorState
+  getEditorState,
+  toggleReadOnly,
+  readOnly,
 ) => contentBlock => {
   const type = contentBlock.getType();
   if (type === ATOMIC) {
@@ -17,6 +19,7 @@ const blockRendererFn = (
   }
 
   if (type === LAYOUT) {
+    console.log('rendering layout');
     return {
       component: Layout1,
       editable: true,
@@ -24,6 +27,8 @@ const blockRendererFn = (
         setModal,
         updateEditorState,
         getEditorState,
+        toggleReadOnly,
+        readOnly,
       },
     };
   }

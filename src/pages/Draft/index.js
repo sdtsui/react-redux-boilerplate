@@ -152,6 +152,7 @@ class RichEditor extends React.Component {
     this.state = {
       editorState: EditorState.createEmpty(),
       modal: null,
+      readOnly: false,
     };
     this.focus = () => this.refs.editor.focus();
     this.updateEditorState = editorState => this.setState({ editorState });
@@ -167,16 +168,6 @@ class RichEditor extends React.Component {
   onTab = e => {
     const maxDepth = 4;
     this.updateEditorState(RichUtils.onTab(e, this.state.editorState, maxDepth));
-  };
-
-  handleKeyCommand = command => {
-    const { editorState } = this.state;
-    const newState = RichUtils.handleKeyCommand(editorState, command);
-    if (newState) {
-      this.updateEditorState(newState);
-      return true;
-    }
-    return false;
   };
 
   toggleBlockType = blockType => {
@@ -230,14 +221,15 @@ class RichEditor extends React.Component {
     this.setState({ modal: component });
   };
 
+  toggleReadOnly = value => {
+    this.setState({ readOnly: value || !this.state.readOnly });
+  };
+
   render() {
-    // contentStateLogger(this.state.editorState);
+    console.log('this.state.readOnly', this.state.readOnly);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">
-        <div className="modal-mount">
-          {this.state.modal}
-        </div>
         <Toolbar
           addMedia={this.addMedia}
           activeBlockAlignment={getActiveBlockAlignment(this.state.editorState)}
@@ -256,19 +248,21 @@ class RichEditor extends React.Component {
             blockRendererFn={blockRendererFn(
               this.setModal,
               this.updateEditorState,
-              this.getEditorState
+              this.getEditorState,
+              this.toggleReadOnly,
+              this.state.readOnly,
               )}
             blockRenderMap={extendedBlockRenderMap}
             blockStyleFn={blockStyleFn}
             customStyleMap={customStyleMap}
             customStyleFn={customStyleFn}
             editorState={editorState}
-            handleKeyCommand={this.handleKeyCommand}
             handleReturn={handleReturn(editorState, this.updateEditorState)}
             onChange={this.updateEditorState}
             onTab={this.onTab}
             placeholder="Tell a story..."
             ref="editor"
+            readOnly={this.state.readOnly}
             spellCheck
           />
         </div>
