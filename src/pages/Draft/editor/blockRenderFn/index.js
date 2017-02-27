@@ -19,7 +19,6 @@ const blockRendererFn = (
   }
 
   if (type === LAYOUT) {
-    console.log('rendering layout');
     return {
       component: Layout1,
       editable: !readOnly,

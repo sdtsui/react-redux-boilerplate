@@ -28,7 +28,6 @@ const Colors = props => {
   const style = {
     color,
   };
-  console.log('style', style);
   return (
     <ButtonGroup>
       <Button>
