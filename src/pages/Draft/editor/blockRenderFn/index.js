@@ -22,7 +22,7 @@ const blockRendererFn = (
     console.log('rendering layout');
     return {
       component: Layout1,
-      editable: true,
+      editable: !readOnly,
       props: {
         setModal,
         updateEditorState,

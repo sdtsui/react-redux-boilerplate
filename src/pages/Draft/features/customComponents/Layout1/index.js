@@ -19,11 +19,15 @@ class Layout1 extends Component {
   closeModal = () => {
     this.setState({ showModal: false });
     this.props.blockProps.toggleReadOnly(false);
+    // fixes draft-js bug where it does not update the contentEditable attribute correctly
+    this.refs.layout1.setAttribute('contenteditable', true);
   };
 
   openModal = () => {
     this.setState({ showModal: true });
     this.props.blockProps.toggleReadOnly(true);
+    // fixes draft-js bug where it does not update the contentEditable attribute correctly
+    this.refs.layout1.setAttribute('contenteditable', false);
   };
 
   updateBlockData = (prop, val) => {
@@ -79,20 +83,18 @@ class Layout1 extends Component {
     );
 
     return (
-      <div>
+      <div ref="layout1" className={className}>
         {this.state.showModal && modal}
-        <div className={className}>
-          <img
-            style={{
+        <img
+          style={{
               height: data.get('height') || this.props.height,
               width: data.get('width') || this.props.width,
             }}
-            onClick={this.openModal}
-            src={data.get('src') || this.props.src}
-            className="layout-1__image"
-          />
-          <EditorBlock{...this.props} />
-        </div>
+          onClick={this.openModal}
+          src={data.get('src') || this.props.src}
+          className="layout-1__image"
+        />
+        <EditorBlock{...this.props} />
       </div>
     );
   }
