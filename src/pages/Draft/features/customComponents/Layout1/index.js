@@ -4,6 +4,16 @@ import Layout1Modal from './Layout1Modal';
 import { addBlockData } from './Layout1';
 import './Layout1.scss';
 
+const editorStateWithoutFocus = editorState => {
+  const selection = editorState.getSelection();
+  const newSelection = SelectionState.createEmpty().merge({
+    ...selection.toJS(),
+    hasFocus: false,
+  });
+
+  return EditorState.acceptSelection(editorState, newSelection);
+};
+
 class Layout1 extends Component {
   constructor() {
     super();
@@ -12,38 +22,29 @@ class Layout1 extends Component {
     };
   }
 
-  componentWillUnmount() {
-    console.log('unmounted');
-  }
-
   closeModal = () => {
-    this.setState({ showModal: false });
-    this.props.blockProps.toggleReadOnly(false);
-    // fixes draft-js bug where it does not update the contentEditable attribute correctly
-    this.refs.layout1.setAttribute('contenteditable', true);
+    const { blockProps: { getEditorState, updateEditorState } } = this.props;
+    this.setState({ showModal: false }, () => {
+      this.props.blockProps.toggleReadOnly(false);
+      updateEditorState(editorStateWithoutFocus(getEditorState()));
+    });
   };
 
   openModal = () => {
-    this.setState({ showModal: true });
-    this.props.blockProps.toggleReadOnly(true);
-    // fixes draft-js bug where it does not update the contentEditable attribute correctly
-    this.refs.layout1.setAttribute('contenteditable', false);
+    const { blockProps: { getEditorState, updateEditorState } } = this.props;
+    this.setState({ showModal: true }, () => {
+      this.props.blockProps.toggleReadOnly(true);
+      updateEditorState(editorStateWithoutFocus(getEditorState()));
+    });
   };
 
   updateBlockData = (prop, val) => {
     const { block, blockProps: { getEditorState, updateEditorState } } = this.props;
     const blockKey = block.getKey();
     const editorState = addBlockData(getEditorState(), blockKey)({ [prop]: val });
-    const selection = editorState.getSelection();
 
-    // This part is important, It is used by not giving focus to the editor.
-    const newSelection = SelectionState.createEmpty().merge({
-      ...selection.toJS(),
-      hasFocus: false,
-    });
+    return updateEditorState(editorStateWithoutFocus(editorState));
 
-    // force selection breaks the editor acceptSelection must be used instead.
-    return updateEditorState(EditorState.acceptSelection(editorState, newSelection));
   };
 
   handleFileInput = e => {
