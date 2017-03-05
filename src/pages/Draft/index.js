@@ -147,7 +147,7 @@ class RichEditor extends React.Component {
   };
 
   render() {
-    // contentStateLogger(this.state.editorState);
+    contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">

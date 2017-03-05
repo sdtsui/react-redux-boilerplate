@@ -150,7 +150,7 @@ ImageComponent.propTypes = {
   src: PropTypes.string,
   width: PropTypes.string,
   height: PropTypes.string,
-  toggleReadOnly: PropTypes.func.isRequired,
+  toggleReadOnly: PropTypes.func,
 };
 
 export default ImageComponent;

@@ -47,8 +47,8 @@ const Colors = props => {
 };
 
 Colors.propTypes = {
-  toggleColor: PropTypes.string.isRequired,
-  currentColor: PropTypes.string.isRequired,
+  toggleColor: PropTypes.func,
+  currentColor: PropTypes.string,
 };
 
 export default Colors;

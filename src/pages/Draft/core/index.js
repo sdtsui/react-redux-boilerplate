@@ -116,7 +116,11 @@ export const getSelectedBlocksAsList = editorState => {
 };
 
 export const getSelectedBlockKeys = editorState => {
-  return getSelectedBlocksAsList(editorState).map(block => block.key);
+  const selectedBlockList = getSelectedBlocksAsList(editorState);
+  if (!selectedBlockList.size) {
+    return [];
+  }
+  return selectedBlockList.map(block => block.key);
 };
 
 export const reduceAndRemoveBlockData = (oldContentState, blockKeys, dataPath) => {
@@ -175,7 +179,16 @@ export const removeBlockWithKey = (editorState, blockKey) => {
     blockMap: newBlockMap,
   });
 
-  return EditorState.push(editorState, newContentState);
+  const selection = editorState.getSelection();
+  const startKey = selection.getStartKey();
+  const blockBeforeKey = contentState.getBlockBefore(startKey).getKey();
+  const newSelection = SelectionState.createEmpty().merge({
+    ...selection.toJS(),
+    anchorKey: blockBeforeKey,
+    focusKey: blockBeforeKey,
+  });
+
+  return EditorState.forceSelection(EditorState.push(editorState, newContentState), newSelection);
 };
 
 export const insertNewBlock = editorState => {
@@ -187,17 +200,16 @@ export const insertNewBlock = editorState => {
   const blockMap = contentState.getBlockMap();
   const firstSlice = blockMap.slice(0, blockIndex + 1);
   const lastSlice = blockMap.slice(blockIndex + 1);
-  const tempBlockMap = ContentState.createFromText(';', ';').getBlockMap();
+  const tempBlockMap = ContentState.createFromText('').getBlockMap();
   const fistBlock = tempBlockMap.first();
-  const lastBlock = tempBlockMap.last();
 
   // Generate the blockMap
-  const newBlockMap = [fistBlock, lastBlock].reduce((prevBlockMap, newBlock) => {
+  const newBlockMap = [fistBlock].reduce((prevBlockMap, newBlock) => {
     return prevBlockMap.set(newBlock.getKey(), newBlock);
   }, firstSlice).concat(lastSlice);
 
   // Modify selection to place cursor at new block
-  const selectionKey = lastBlock.getKey();
+  const selectionKey = fistBlock.getKey();
   const newSelection = SelectionState.createEmpty().merge({
     anchorKey: selectionKey,
     focusKey: selectionKey,

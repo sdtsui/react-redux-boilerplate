@@ -51,7 +51,7 @@ const Toolbar = props => {
 Toolbar.propTypes = {
   toggleBlockType: PropTypes.func.isRequired,
   toggleBlockAlignment: PropTypes.func.isRequired,
-  toggleColor: PropTypes.string.isRequired,
+  toggleColor: PropTypes.func.isRequired,
   toggleInlineStyle: PropTypes.func.isRequired,
   toggleFontFamily: PropTypes.func.isRequired,
   toggleFontSize: PropTypes.func.isRequired,
