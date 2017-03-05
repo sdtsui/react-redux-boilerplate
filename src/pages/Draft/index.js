@@ -15,6 +15,7 @@ import customStyleFn from './editor/customStyleFn';
 import customStyleMap from './editor/customStyleMap';
 import blockRendererFn from './editor/blockRenderFn';
 import extendedBlockRenderMap from './editor/blockRenderMap';
+import handleBeforeInput from './editor/handleBeforeInput';
 import { handleKeyCommand, myKeyBindingFn } from './editor/keyBindingFn';
 // css
 import './core/styles/styles.scss';
@@ -147,7 +148,8 @@ class RichEditor extends React.Component {
   };
 
   render() {
-    contentStateLogger(this.state.editorState);
+    // contentStateLogger(this.state.editorState);
+    console.log(this.state.editorState.getSelection().toJS());
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">
@@ -177,6 +179,7 @@ class RichEditor extends React.Component {
             customStyleMap={customStyleMap}
             customStyleFn={customStyleFn}
             editorState={editorState}
+            handleBeforeInput={handleBeforeInput(this.getEditorState)}
             handleKeyCommand={handleKeyCommand(
               this.getEditorState,
               this.updateEditorState

@@ -68,14 +68,13 @@ class ImageComponent extends Component {
   selectImage = () => {
     const block = this.props.block;
     const blockKey = block.getKey();
-    const blockLength = block.getLength();
     const { getEditorState, updateEditorState } = this.props.blockProps;
     const editorState = getEditorState();
     const newSelection = SelectionState.createEmpty().merge({
       anchorKey: blockKey,
       focusKey: blockKey,
-      anchorOffset: blockLength,
-      focusOffset: blockLength,
+      anchorOffset: 0,
+      focusOffset: 0,
     });
 
     console.log('newSelection', newSelection.toJS());
