@@ -43,12 +43,30 @@ export const isImageSelected = (block, editorState) => {
 
 export const atomicSelection = editorState => {
   const selection = editorState.getSelection();
+  const contentState = editorState.getCurrentContent();
   const firstBlockKey = selection.getStartKey();
   const sameBlockKeys = selection.getStartKey() === selection.getEndKey();
   const block = editorState.getCurrentContent().getBlockForKey(firstBlockKey);
   const blockType = block.getType();
-  const isValid = blockType === 'atomic' && sameBlockKeys;
-  return isValid ? block.getKey() : null;
+
+  if (blockType === 'atomic' && sameBlockKeys) {
+    const entityKey = block.getEntityAt(0);
+    if (!entityKey) {
+      return null;
+    }
+
+    const entityData = contentState.getEntity(entityKey).getData();
+
+    if (!entityData) {
+      return null;
+    }
+
+    if (entityData.type === 'image') {
+      return block.getKey();
+    }
+  }
+
+  return null;
 };
 
 // key bindings

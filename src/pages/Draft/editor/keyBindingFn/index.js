@@ -6,11 +6,13 @@ import {
 
 export const handleKeyCommand = (getEditorState, updateEditorState) => command => {
   const editorState = getEditorState();
-  const resultHandled = [atomicKeyCommands].some(fn => {
+  const isHandled = [atomicKeyCommands].some(fn => {
     return fn(command, editorState, updateEditorState) === 'handled';
   });
 
-  if (resultHandled) return 'handled';
+  if (isHandled) {
+    return 'handled';
+  }
 
   return 'not-handled';
 };
@@ -21,8 +23,13 @@ export const myKeyBindingFn = getEditorState => e => {
 
   [atomicKeyBindings].some(fn => {
     const result = fn(editorState, e);
-    if (result) command = result;
-    return true;
+    if (result) {
+      command = result;
+
+      return true;
+    }
+
+    return false;
   });
 
   if (command) return command;
