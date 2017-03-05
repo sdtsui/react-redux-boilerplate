@@ -16,7 +16,12 @@ class MediaComponent extends Component {
 
     switch (type) {
       case 'image': {
-        return <ImageBlock data={checkedData}/>;
+        return (
+          <ImageBlock
+            {...this.props}
+            data={checkedData}
+          />
+        );
       }
       case 'video': {
         return <VideoBlock data={checkedData}/>;

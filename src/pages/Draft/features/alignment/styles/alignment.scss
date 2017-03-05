@@ -17,14 +17,17 @@
   display: flex;
 }
 
-.atomic-left {
-  justify-content: flex-start;
-  align-items: flex-start;
-  display: flex;
+.atomic-left,
+.atomic-right {
+  clear: both;
 }
 
-.atomic-right {
-  justify-content: flex-end;
-  align-items: flex-start;
-  display: flex;
+.atomic-left .image-wrapper {
+  float: left;
+  margin-right: 5px;
+}
+
+.atomic-right .image-wrapper {
+  float: right;
+  margin-left: 5px;
 }

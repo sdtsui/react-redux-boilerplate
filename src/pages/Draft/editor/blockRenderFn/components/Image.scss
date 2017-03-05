@@ -51,7 +51,7 @@
     clear: both;
     display: block;
   }
-  
+
   .layout-1 > .layout-1__image {
     position: relative;
     float: left;
@@ -64,8 +64,32 @@
     box-sizing: inherit;
     margin: 0 10px;
   }
-  
+
   .layout-1.float-right > .layout-1__image {
     float: right;
   }
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.focus-button {
+  visibility: hidden;
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 25px;
+  height: 25px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  box-shadow: 0 0 5px #888;
+}
+
+.image-wrapper:hover .focus-button {
+  visibility: visible;
 }

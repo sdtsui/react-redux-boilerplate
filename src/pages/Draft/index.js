@@ -11,11 +11,11 @@ import { toggleFontFamily, currentFontFamily } from './features/fontFamily/index
 import { toggleBlockAlignment, getActiveBlockAlignment } from './features/alignment';
 // editor props
 import blockStyleFn from './editor/blockStyleFn';
-import handleReturn from './editor/handleReturn';
 import customStyleFn from './editor/customStyleFn';
 import customStyleMap from './editor/customStyleMap';
 import blockRendererFn from './editor/blockRenderFn';
 import extendedBlockRenderMap from './editor/blockRenderMap';
+import { handleKeyCommand, myKeyBindingFn } from './editor/keyBindingFn';
 // css
 import './core/styles/styles.scss';
 import './features/alignment/styles/alignment.scss';
@@ -36,22 +36,7 @@ const externalContentState = {
   },
   blocks: [
     {
-      key: "bh71m",
-      text: "This is a title",
-      type: "header-one",
-      depth: 0,
-      inlineStyleRanges: [],
-      entityRanges: [],
-      data: {
-        media: {
-          type: "image",
-          src: "http://placehold.it/350x450"
-        },
-        alignment: "center"
-      }
-    },
-    {
-      key: "9v5pp",
+      key: "b6nul",
       text: "",
       type: "unstyled",
       depth: 0,
@@ -60,7 +45,7 @@ const externalContentState = {
       data: {}
     },
     {
-      key: "dn7o6",
+      key: "p6qp",
       text: " ",
       type: "atomic",
       depth: 0,
@@ -72,78 +57,20 @@ const externalContentState = {
           key: 0
         }
       ],
-      data: {}
+      data: {
+        alignment: "left"
+      }
     },
     {
-      key: "3eir8",
-      text: "What is Lorem Ipsum?",
-      type: "header-four",
+      key: "22eom",
+      text: "asdf",
+      type: "unstyled",
       depth: 0,
       inlineStyleRanges: [],
       entityRanges: [],
       data: {}
-    },
-    {
-      key: "fhhac",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      type: "unstyled",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 11,
-          style: "BOLD"
-        }
-      ],
-      entityRanges: [],
-      data: {}
-    },
-    {
-      key: "3766t",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      type: "layout",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 11,
-          style: "BOLD"
-        },
-        {
-          offset: 574,
-          length: 11,
-          style: "BOLD"
-        }
-      ],
-      entityRanges: [],
-      data: fromJS({
-        width: '400px',
-        height: 'auto',
-        floatRight: false,
-        src: 'http://assets1.ignimgs.com/2014/12/02/league-of-legends-champions-art-1280x720jpg-14aa17_1280w.jpg',
-      }),
-    },
-    {
-      key: "f1bsd",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      type: "layout",
-      depth: 0,
-      inlineStyleRanges: [
-        {
-          offset: 0,
-          length: 11,
-          style: "BOLD"
-        },
-        {
-          offset: 574,
-          length: 11,
-          style: "BOLD"
-        }
-      ],
-      entityRanges: [],
-      data: {}
-    },
-  ],
+    }
+  ]
 };
 
 class RichEditor extends React.Component {
@@ -151,10 +78,8 @@ class RichEditor extends React.Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      modal: null,
       readOnly: false,
     };
-    this.focus = () => this.refs.editor.focus();
     this.updateEditorState = editorState => this.setState({ editorState });
     this.getEditorState = () => this.state.editorState;
   }
@@ -217,15 +142,12 @@ class RichEditor extends React.Component {
     this.updateEditorState(editorStateWithNewBlock);
   };
 
-  setModal = component => {
-    this.setState({ modal: component });
-  };
-
   toggleReadOnly = value => {
     this.setState({ readOnly: value || !this.state.readOnly });
   };
 
   render() {
+    // contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">
@@ -245,7 +167,6 @@ class RichEditor extends React.Component {
         <div className="text-editor">
           <Editor
             blockRendererFn={blockRendererFn(
-              this.setModal,
               this.updateEditorState,
               this.getEditorState,
               this.toggleReadOnly,
@@ -256,7 +177,11 @@ class RichEditor extends React.Component {
             customStyleMap={customStyleMap}
             customStyleFn={customStyleFn}
             editorState={editorState}
-            handleReturn={handleReturn(editorState, this.updateEditorState)}
+            handleKeyCommand={handleKeyCommand(
+              this.getEditorState,
+              this.updateEditorState
+              )}
+            keyBindingFn={myKeyBindingFn(this.getEditorState)}
             onChange={this.updateEditorState}
             onTab={this.onTab}
             placeholder="Tell a story..."

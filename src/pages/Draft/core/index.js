@@ -1,7 +1,18 @@
-import { EditorState, convertFromRaw, convertToRaw } from 'draft-js';
+import {
+  EditorState,
+  convertFromRaw,
+  convertToRaw,
+  ContentState,
+  SelectionState,
+} from 'draft-js';
 import { Map } from 'immutable';
 
-const reduceBlockKeysAndAddData = (oldContentState, blockKeys, blockData, dataPath = []) => {
+export const reduceBlockKeysAndAddData = (
+  oldContentState,
+  blockKeys,
+  blockData,
+  dataPath = []
+) => {
   return blockKeys.reduce((contentState, blockKey) => {
     const block = contentState.getBlockForKey(blockKey);
     const blockMap = contentState.getBlockMap();
@@ -12,7 +23,7 @@ const reduceBlockKeysAndAddData = (oldContentState, blockKeys, blockData, dataPa
 };
 
 // only needs blocks an array of blocks
-const changeBlockData = (editorState, blockData, dataPath = []) => {
+export const changeBlockData = (editorState, blockData, dataPath = []) => {
   const oldContentState = editorState.getCurrentContent();
   const selectedBlockKeys = getSelectedBlockKeys(editorState);
   const newContentState = reduceBlockKeysAndAddData(oldContentState, selectedBlockKeys, blockData, dataPath);
@@ -21,7 +32,12 @@ const changeBlockData = (editorState, blockData, dataPath = []) => {
 };
 
 // if no path is specified it saves in the data property
-const changeBlockDataForBlockKeys = (editorState, blockKeys, blockData, dataPath = []) => {
+export const changeBlockDataForBlockKeys = (
+  editorState,
+  blockKeys,
+  blockData,
+  dataPath = []
+) => {
   const oldContentState = editorState.getCurrentContent();
   const newContentState = reduceBlockKeysAndAddData(oldContentState, blockKeys, blockData, dataPath);
 
@@ -32,7 +48,7 @@ const changeBlockDataForBlockKeys = (editorState, blockKeys, blockData, dataPath
 // Maps over the selected characters, and applies a function to each character.
 // Characters are of type CharacterMetadata. Look up the draftJS API to see what
 // operations can be performed on characters.
-const mapSelectedCharacters = callback => editorState => {
+export const mapSelectedCharacters = callback => editorState => {
   const contentState = editorState.getCurrentContent();
   const selectionState = editorState.getSelection();
   const blockMap = contentState.getBlockMap();
@@ -84,7 +100,7 @@ const mapSelectedCharacters = callback => editorState => {
   return EditorState.push(editorState, newContentState, 'change-inline-style');
 };
 
-const getSelectedBlocks = editorState => {
+export const getSelectedBlocks = editorState => {
   const contentState = editorState.getCurrentContent();
   const blockMap = contentState.getBlockMap();
   const startKey = editorState.getSelection().getStartKey();
@@ -95,15 +111,15 @@ const getSelectedBlocks = editorState => {
                  .concat(Map([[endKey, blockMap.get(endKey)]]));
 };
 
-const getSelectedBlocksAsList = editorState => {
+export const getSelectedBlocksAsList = editorState => {
   return getSelectedBlocks(editorState).toList();
 };
 
-const getSelectedBlockKeys = editorState => {
+export const getSelectedBlockKeys = editorState => {
   return getSelectedBlocksAsList(editorState).map(block => block.key);
 };
 
-const reduceAndRemoveBlockData = (oldContentState, blockKeys, dataPath) => {
+export const reduceAndRemoveBlockData = (oldContentState, blockKeys, dataPath) => {
   return blockKeys.reduce(
     (contentState, blockKey) => {
       const block = contentState.getBlockForKey(blockKey);
@@ -119,28 +135,28 @@ const reduceAndRemoveBlockData = (oldContentState, blockKeys, dataPath) => {
   );
 };
 
-const removeBlockData = (editorState, dataPath) => {
+export const removeBlockData = (editorState, dataPath) => {
   const oldContentState = editorState.getCurrentContent();
   const selectedBlockKeys = getSelectedBlockKeys(editorState);
   const newContentState = reduceAndRemoveBlockData(oldContentState, selectedBlockKeys, dataPath);
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
-const removeBlockDataForBlockKeys = (editorState, blockKeys, dataPath) => {
+export const removeBlockDataForBlockKeys = (editorState, blockKeys, dataPath) => {
   const oldContentState = editorState.getCurrentContent();
   const newContentState = reduceAndRemoveBlockData(oldContentState, blockKeys, dataPath);
 
   return EditorState.push(editorState, newContentState, 'change-block-data');
 };
 
-const fromRawContentStateToEditorState = contentState => {
+export const fromRawContentStateToEditorState = contentState => {
   return contentState
     ? EditorState.createWithContent(convertFromRaw(contentState))
     : EditorState.createEmpty();
 };
 
 // Logs contentState in a readable format.
-const contentStateLogger = editorState => {
+export const contentStateLogger = editorState => {
   const result = JSON.stringify(convertToRaw(editorState.getCurrentContent()), null, 4);
   const newResult = JSON.parse(result);
   const contentState = JSON.stringify({ contentState: newResult }, null, 4);
@@ -150,14 +166,51 @@ const contentStateLogger = editorState => {
   console.log(newContentState);
 };
 
-export {
-  changeBlockData,
-  changeBlockDataForBlockKeys,
-  fromRawContentStateToEditorState,
-  getSelectedBlocks,
-  removeBlockData,
-  removeBlockDataForBlockKeys,
-  getSelectedBlockKeys,
-  mapSelectedCharacters,
-  contentStateLogger,
+export const removeBlockWithKey = (editorState, blockKey) => {
+  const contentState = editorState.getCurrentContent();
+  const blockMap = contentState.getBlockMap();
+  const newBlockMap = blockMap.filter(block => block.getKey() !== blockKey);
+
+  const newContentState = contentState.merge({
+    blockMap: newBlockMap,
+  });
+
+  return EditorState.push(editorState, newContentState);
+};
+
+export const insertNewBlock = editorState => {
+  const contentState = editorState.getCurrentContent();
+  const blockList = contentState.getBlockMap().toList();
+  const selection = editorState.getSelection();
+  const startKey = selection.getStartKey();
+  const blockIndex = blockList.findIndex(block => block.getKey() === startKey);
+  const blockMap = contentState.getBlockMap();
+  const firstSlice = blockMap.slice(0, blockIndex + 1);
+  const lastSlice = blockMap.slice(blockIndex + 1);
+  const tempBlockMap = ContentState.createFromText(';', ';').getBlockMap();
+  const fistBlock = tempBlockMap.first();
+  const lastBlock = tempBlockMap.last();
+
+  // Generate the blockMap
+  const newBlockMap = [fistBlock, lastBlock].reduce((prevBlockMap, newBlock) => {
+    return prevBlockMap.set(newBlock.getKey(), newBlock);
+  }, firstSlice).concat(lastSlice);
+
+  // Modify selection to place cursor at new block
+  const selectionKey = lastBlock.getKey();
+  const newSelection = SelectionState.createEmpty().merge({
+    anchorKey: selectionKey,
+    focusKey: selectionKey,
+    anchorOffset: 0,
+    focusOffset: 0,
+  });
+
+  const newContentState = contentState.merge({
+    blockMap: newBlockMap,
+  });
+
+  // Force the editor to render the cursor correctly
+  return EditorState.forceSelection(
+    EditorState.push(editorState, newContentState),
+    newSelection);
 };

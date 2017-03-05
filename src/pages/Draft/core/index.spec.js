@@ -3,13 +3,12 @@ import { fromJS } from 'immutable';
 import {
   convertFromRaw,
   EditorState,
-  RichUtils,
-  Modifier,
   SelectionState,
+  ContentState,
 } from 'draft-js';
-import { changeBlockData, removeBlockData } from './';
+import { changeBlockData, removeBlockData, removeBlockWithKey, insertNewBlock } from './';
 
-describe('changeBlockData, removeBlockData', () => {
+describe.only('changeBlockData, removeBlockData', () => {
   describe('removeBlockData', () => {
     const block1Data = fromJS({
       alignment: 'left',
@@ -161,6 +160,41 @@ describe('changeBlockData, removeBlockData', () => {
         }
       };
       expect(lastBlockData).to.deep.equal(expected);
+    });
+  });
+
+  describe('remove a block by giving it a key', () => {
+    const contentState = ContentState.createFromText('block1;block2', ';');
+    const editorState = EditorState.createWithContent(contentState);
+    it('should have 2 blocks', () => {
+      const blockMapSize = editorState.getCurrentContent().getBlockMap().size;
+      expect(blockMapSize).to.equal(2);
+    });
+    it('should remove the first block', () => {
+      const firstBlock = contentState.getFirstBlock();
+      const firstBlockKey = firstBlock.getKey();
+      const newEditorState = removeBlockWithKey(editorState, firstBlockKey);
+      expect(newEditorState.getCurrentContent().getBlockMap().size).to.equal(1);
+    });
+  });
+
+  describe('insertBlock', () => {
+    const contentState = ContentState.createFromText('block1;block2', ';');
+    const editorState = EditorState.createWithContent(contentState);
+
+    it('Should create 2 new blocks', () => {
+      const newEditorState = insertNewBlock(editorState);
+      const blockMap = newEditorState.getCurrentContent().getBlockMap().toList();
+      expect(blockMap.size).to.equal(4);
+    });
+
+    it('Should create 2 new blocks', () => {
+      const newEditorState = insertNewBlock(editorState);
+      const newContentState = newEditorState.getCurrentContent();
+      const lastKey = newContentState.getLastBlock().getKey();
+      const expectedSelectionKey = newContentState.getBlockBefore(lastKey).getKey();
+      const startKey = newEditorState.getSelection().getStartKey();
+      expect(startKey).to.equal(expectedSelectionKey);
     });
   });
 });

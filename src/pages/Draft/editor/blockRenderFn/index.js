@@ -1,9 +1,7 @@
 import MediaComponent from './components/MediaComponent';
-import Layout1 from '../../features/customComponents/Layout1/index';
-import { ATOMIC, LAYOUT } from '../../core/types/block';
+import { ATOMIC } from '../../core/types/block';
 
 const blockRendererFn = (
-  setModal,
   updateEditorState,
   getEditorState,
   toggleReadOnly,
@@ -14,16 +12,7 @@ const blockRendererFn = (
     return {
       component: MediaComponent,
       editable: false,
-      props: {},
-    };
-  }
-
-  if (type === LAYOUT) {
-    return {
-      component: Layout1,
-      editable: !readOnly,
       props: {
-        setModal,
         updateEditorState,
         getEditorState,
         toggleReadOnly,

@@ -10,4 +10,3 @@ export const OL = 'ordered-list-item';
 export const CODE_BLOCK = 'code-block';
 export const UNSTYLED = 'unstyled';
 export const ATOMIC = 'atomic';
-export const LAYOUT = 'layout';

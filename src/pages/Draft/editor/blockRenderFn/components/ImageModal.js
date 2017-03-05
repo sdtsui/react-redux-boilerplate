@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import Modal from '../../../core/components/Modal';
 import ModalInputGroup from '../../../core/components/ModalInputGroup';
 
-const Layout1Modal = props => {
+const ImageModal = props => {
   return (
     <Modal
       title="Layout 1 Settings"
@@ -26,13 +26,6 @@ const Layout1Modal = props => {
           placeholder="height"
         />
       </ModalInputGroup>
-      <ModalInputGroup title="Float Image?">
-        <input
-          onChange={() => props.update('floatRight', !props.floatRight)}
-          value={props.floatRight}
-          type="checkbox"
-        />
-      </ModalInputGroup>
       <ModalInputGroup title="Image Source">
         <input
           onChange={e => props.update('src', e.target.value)}
@@ -50,9 +43,9 @@ const Layout1Modal = props => {
   );
 };
 
-export default Layout1Modal;
+export default ImageModal;
 
-Layout1Modal.propTypes = {
+ImageModal.propTypes = {
   floatRight: PropTypes.bool,
   width: PropTypes.string,
   height: PropTypes.string,
