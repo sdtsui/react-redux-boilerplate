@@ -21,9 +21,10 @@ class MediaComponent extends Component {
         );
       }
       case 'video': {
-        return <Video data={checkedData}/>;
+        return <Video {...this.props} data={checkedData}/>;
       }
       default: {
+        console.log('no matches');
         return null;
       }
     }

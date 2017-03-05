@@ -3,7 +3,11 @@ import { fromJS } from 'immutable';
 import { Editor, EditorState, RichUtils, AtomicBlockUtils } from 'draft-js';
 import Toolbar from './features/Toolbar';
 // core
-import { fromRawContentStateToEditorState, contentStateLogger } from './core';
+import {
+  fromRawContentStateToEditorState,
+  contentStateLogger,
+  changeBlockDataForBlockKeys,
+} from './core';
 // features
 import { toggleColor, currentColor } from './features/fontColor/index';
 import { toggleFontSize, currentFontSize } from './features/fontSize/index';
@@ -29,8 +33,6 @@ const externalContentState = {
       type: "atomic",
       mutability: "IMMUTABLE",
       data: {
-        src: "https://www.gamecrate.com/sites/default/files/wp-content/uploads/2015/01/LoL_free_gifts_for_well-behaved_players1.jpg",
-        description: "addDescription",
         type: "image"
       }
     }
@@ -46,7 +48,7 @@ const externalContentState = {
       data: {}
     },
     {
-      key: "p6qp",
+      key: "fa8iu",
       text: " ",
       type: "atomic",
       depth: 0,
@@ -59,12 +61,13 @@ const externalContentState = {
         }
       ],
       data: {
-        alignment: "left"
+        src: "https://www.gamecrate.com/sites/default/files/wp-content/uploads/2015/01/LoL_free_gifts_for_well-behaved_players1.jpg",
+        description: "addDescription"
       }
     },
     {
-      key: "22eom",
-      text: "asdf",
+      key: "74bcn",
+      text: "",
       type: "unstyled",
       depth: 0,
       inlineStyleRanges: [],
@@ -72,7 +75,7 @@ const externalContentState = {
       data: {}
     }
   ]
-};
+}
 
 class RichEditor extends React.Component {
   constructor(props) {
@@ -129,18 +132,32 @@ class RichEditor extends React.Component {
     return this.updateEditorState(newEditorState);
   };
 
-  addMedia = data => {
+  addMedia = ({ type, ...rest }) => {
     const editorState = this.state.editorState;
+    const selection = editorState.getSelection();
+
+    if (!selection.isCollapsed) {
+      console.log('selection must be collapsed before adding media');
+      return;
+    }
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'atomic',
       'IMMUTABLE',
-      fromJS(data)
+      fromJS({ type })// only leave the type here. Trow everything else into blockData
     );
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
     const newEditorState = EditorState.set(editorState, { currentContent: contentStateWithEntity });
     const editorStateWithNewBlock = AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, ' ');
-    this.updateEditorState(editorStateWithNewBlock);
+    const startKey = editorState.getSelection().getStartKey();
+    const newBlockKey = editorStateWithNewBlock.getCurrentContent().getBlockAfter(startKey).getKey();
+    const editorStateWithBlockData = changeBlockDataForBlockKeys(
+      editorStateWithNewBlock,
+      [newBlockKey],
+      fromJS(rest)
+    );
+
+    this.updateEditorState(editorStateWithBlockData);
   };
 
   toggleReadOnly = value => {
@@ -148,7 +165,7 @@ class RichEditor extends React.Component {
   };
 
   render() {
-    // contentStateLogger(this.state.editorState);
+    contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">

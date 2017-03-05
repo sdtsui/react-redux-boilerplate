@@ -2,8 +2,7 @@ import React, { PropTypes } from 'react';
 import './VideoBlock.scss';
 
 const Video = props => {
-  const data = props.data;
-  const src = data.get('src');
+  const src = props.block.getData().get('src');
   return (
     <div className="media-component-video-wrapper">
       <iframe
@@ -17,7 +16,7 @@ const Video = props => {
 };
 
 Video.propTypes = {
-  data: PropTypes.object.isRequired,
+  block: PropTypes.object.isRequired,
 };
 
 export default Video;

@@ -1,5 +1,5 @@
 import { EditorState, SelectionState } from 'draft-js';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 import {
   changeBlockDataForBlockKeys,
   removeBlockWithKey,
@@ -61,7 +61,9 @@ export const atomicSelection = editorState => {
       return null;
     }
 
-    if (entityData.type === 'image') {
+    const checkedData = Map.isMap(entityData) ? entityData : fromJS(entityData);
+
+    if (checkedData.get('type') === 'image') {
       return block.getKey();
     }
   }

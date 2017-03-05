@@ -15,8 +15,8 @@ class ImageButton extends Component {
     };
   }
 
-  updateSrc = src => {
-    this.setState({ src });
+  updateState = (prop, val) => {
+    this.setState({ [prop]: val });
   };
 
   addVideo = () => {
@@ -42,14 +42,14 @@ class ImageButton extends Component {
         <ModalInputGroup title="Source">
           <input
             type="text"
-            onChange={e => this.updateSrc(e.target.value)}
+            onChange={e => this.updateState('src', e.target.value)}
             value={this.state.src}
           />
         </ModalInputGroup>
         <ModalInputGroup title="Image description">
           <input
             type="text"
-            onChange={e => this.updateSrc(e.target.value)}
+            onChange={e => this.updateState('description', e.target.value)}
             value={this.state.description}
           />
         </ModalInputGroup>

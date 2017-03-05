@@ -68,8 +68,6 @@ class Image extends Component {
 
   render() {
     const blockData = this.props.block.getData();
-    const entityData = this.props.data;
-    const src = entityData.get('src');
 
     const modal = (
       <ImageModal
@@ -101,7 +99,7 @@ class Image extends Component {
           ref="image"
           style={imgStyles}
           onClick={this.selectImage}
-          src={src}
+          src={blockData.get('src')}
           className="layout-1__image"
         />
       </div>
@@ -116,7 +114,6 @@ Image.defaultProps = {
 };
 
 Image.propTypes = {
-  data: PropTypes.object.isRequired,
   blockProps: PropTypes.object.isRequired,
   block: PropTypes.object.isRequired,
   src: PropTypes.string,
