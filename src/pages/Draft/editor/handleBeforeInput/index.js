@@ -1,5 +1,6 @@
-const handleBeforeInput = (getEditorState) => char => {
-  // // TODO: [] remove this is duplicate logic
+const handleBeforeInput = getEditorState => char => {
+  // TODO: [] remove this is duplicate logic
+  // TODO: [] Add this to image component
   const atomicSelection = editorState => {
     const selection = editorState.getSelection();
     const firstBlockKey = selection.getStartKey();

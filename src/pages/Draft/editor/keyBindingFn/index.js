@@ -1,9 +1,9 @@
 import { getDefaultKeyBinding } from 'draft-js';
 import { removeBlockWithKey, insertNewBlock } from '../../core/';
 
+// TODO: [] Add this to image component logic
 const BACKSPACE_ON_ATOMIC_BLOCK = 'BACKSPACE_ON_ATOMIC_BLOCK';
 const ENTER_ON_ATOMIC_BLOCK = 'ENTER_ON_ATOMIC_BLOCK';
-
 const atomicSelection = editorState => {
   const selection = editorState.getSelection();
   const firstBlockKey = selection.getStartKey();
@@ -14,8 +14,8 @@ const atomicSelection = editorState => {
   return isValid ? block.getKey() : null;
 };
 
-// TODO: [] Test
 export const handleKeyCommand = (getEditorState, updateEditorState) => command => {
+  // TODO: [] Add this to atomic image component
   if (command === BACKSPACE_ON_ATOMIC_BLOCK) {
     const blockKey = atomicSelection(getEditorState());
     const newEditorState = removeBlockWithKey(getEditorState(), blockKey);
@@ -23,6 +23,7 @@ export const handleKeyCommand = (getEditorState, updateEditorState) => command =
     return 'handled';
   }
 
+  // TODO: [] Add this to atomic image component
   if (command === ENTER_ON_ATOMIC_BLOCK) {
     const newEditorState = insertNewBlock(getEditorState());
     console.log('handled!');
@@ -37,6 +38,7 @@ export const handleKeyCommand = (getEditorState, updateEditorState) => command =
 export const myKeyBindingFn = getEditorState => e => {
   const backSpace = 8;
   const enter = 13;
+  // TODO: [] Add this to atomic image component
   if (e.keyCode === backSpace) {
     if (atomicSelection(getEditorState())) return BACKSPACE_ON_ATOMIC_BLOCK;
   }

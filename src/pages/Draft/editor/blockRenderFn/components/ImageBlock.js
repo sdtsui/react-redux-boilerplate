@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { EditorState, SelectionState } from 'draft-js';
 import { fromJS } from 'immutable';
-import { changeBlockDataForBlockKeys, removeBlockWithKey } from '../../../core';
+import { changeBlockDataForBlockKeys } from '../../../core';
 import Layout1Modal from './ImageModal';
 import Icon from '../../../core/components/Icon';
 import './Image.scss';
@@ -26,7 +26,6 @@ class ImageComponent extends Component {
     this.state = {
       showModal: false,
     };
-    this.focus = () => this.refs.image.focus();
   }
 
   closeModal = () => {
@@ -65,6 +64,7 @@ class ImageComponent extends Component {
     reader.readAsDataURL(file);
   };
 
+  // TODO: [] Move to image component logic
   selectImage = () => {
     const block = this.props.block;
     const blockKey = block.getKey();
@@ -77,13 +77,13 @@ class ImageComponent extends Component {
       focusOffset: 0,
     });
 
-    console.log('newSelection', newSelection.toJS());
     const newEditorState = EditorState.forceSelection(editorState, newSelection);
 
     return updateEditorState(newEditorState);
   };
 
-  imageSelected = () => {
+  // TODO: [] move to image component logic
+  isImageSelected = () => {
     const blockKey = this.props.block.getKey();
     const { getEditorState } = this.props.blockProps;
     const selection = getEditorState().getSelection();
@@ -115,7 +115,7 @@ class ImageComponent extends Component {
     const imgStyles = {
       height: blockData.get('height') || this.props.height,
       width: blockData.get('width') || this.props.width,
-      border: this.imageSelected() ? '1px solid red' : null,
+      border: this.isImageSelected() ? '1px solid red' : null,
     };
 
     return (

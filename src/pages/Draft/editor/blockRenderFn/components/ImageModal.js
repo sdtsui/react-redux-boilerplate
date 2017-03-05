@@ -46,7 +46,6 @@ const ImageModal = props => {
 export default ImageModal;
 
 ImageModal.propTypes = {
-  floatRight: PropTypes.bool,
   width: PropTypes.string,
   height: PropTypes.string,
   src: PropTypes.string,
