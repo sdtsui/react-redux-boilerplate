@@ -1,26 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import { EditorState, SelectionState } from 'draft-js';
-import { fromJS } from 'immutable';
-import { changeBlockDataForBlockKeys } from '../../../core';
-import Layout1Modal from './ImageModal';
 import Icon from '../../../core/components/Icon';
+import ImageModal from './ImageModal';
+import {
+  addBlockData,
+  editorStateWithoutFocus,
+  isImageSelected,
+  selectImage,
+} from './image';
 import './Image.scss';
 
-// TODO: [] Move into separate file for testing
-const editorStateWithoutFocus = editorState => {
-  const selection = editorState.getSelection();
-  const newSelection = SelectionState.createEmpty().merge({
-    ...selection.toJS(),
-    hasFocus: false,
-  });
-
-  return EditorState.acceptSelection(editorState, newSelection);
-};
-
-const addBlockData = (editorState, blockKey) =>
-  data => changeBlockDataForBlockKeys(editorState, [blockKey], fromJS(data));
-
-class ImageComponent extends Component {
+class Image extends Component {
   constructor() {
     super();
     this.state = {
@@ -52,6 +41,19 @@ class ImageComponent extends Component {
     return updateEditorState(editorStateWithoutFocus(editorState));
   };
 
+  selectImage = () => {
+    const { getEditorState, updateEditorState } = this.props.blockProps;
+    const newEditorState = selectImage(this.props.block, getEditorState());
+
+    return updateEditorState(newEditorState);
+  };
+
+  isImageSelected = () => {
+    const { getEditorState } = this.props.blockProps;
+
+    return isImageSelected(this.props.block, getEditorState());
+  };
+
   handleFileInput = e => {
     e.preventDefault();
     let reader = new FileReader();
@@ -64,42 +66,13 @@ class ImageComponent extends Component {
     reader.readAsDataURL(file);
   };
 
-  // TODO: [] Move to image component logic
-  selectImage = () => {
-    const block = this.props.block;
-    const blockKey = block.getKey();
-    const { getEditorState, updateEditorState } = this.props.blockProps;
-    const editorState = getEditorState();
-    const newSelection = SelectionState.createEmpty().merge({
-      anchorKey: blockKey,
-      focusKey: blockKey,
-      anchorOffset: 0,
-      focusOffset: 0,
-    });
-
-    const newEditorState = EditorState.forceSelection(editorState, newSelection);
-
-    return updateEditorState(newEditorState);
-  };
-
-  // TODO: [] move to image component logic
-  isImageSelected = () => {
-    const blockKey = this.props.block.getKey();
-    const { getEditorState } = this.props.blockProps;
-    const selection = getEditorState().getSelection();
-    const startKey = selection.getStartKey();
-    const endKey = selection.getEndKey();
-
-    return startKey === blockKey && endKey === blockKey;
-  };
-
   render() {
     const blockData = this.props.block.getData();
     const entityData = this.props.data;
     const src = entityData.get('src');
 
     const modal = (
-      <Layout1Modal
+      <ImageModal
         update={this.updateBlockData}
         handleUpload={this.handleFileInput}
         closeModal={this.closeModal}
@@ -136,13 +109,13 @@ class ImageComponent extends Component {
   }
 }
 
-ImageComponent.defaultProps = {
+Image.defaultProps = {
   width: '450px',
   height: 'auto',
   src: 'http://placehold.it/450x300',
 };
 
-ImageComponent.propTypes = {
+Image.propTypes = {
   data: PropTypes.object.isRequired,
   blockProps: PropTypes.object.isRequired,
   block: PropTypes.object.isRequired,
@@ -152,4 +125,4 @@ ImageComponent.propTypes = {
   toggleReadOnly: PropTypes.func,
 };
 
-export default ImageComponent;
+export default Image;

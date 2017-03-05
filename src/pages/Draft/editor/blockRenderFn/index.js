@@ -1,4 +1,4 @@
-import MediaComponent from './components/MediaComponent';
+import MediaComponent from '../../features/atomicBlocks';
 import { ATOMIC } from '../../core/types/block';
 
 const blockRendererFn = (

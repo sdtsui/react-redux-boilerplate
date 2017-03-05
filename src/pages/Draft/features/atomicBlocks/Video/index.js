@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import './VideoBlock.scss';
 
-const VideoComponent = props => {
+const Video = props => {
   const data = props.data;
   const src = data.get('src');
   return (
@@ -16,8 +16,8 @@ const VideoComponent = props => {
   );
 };
 
-VideoComponent.propTypes = {
+Video.propTypes = {
   data: PropTypes.object.isRequired,
 };
 
-export default VideoComponent;
+export default Video;

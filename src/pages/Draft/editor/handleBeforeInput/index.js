@@ -1,16 +1,12 @@
+import { atomicHandleInput } from '../../features/atomicBlocks/Image/image';
+
 const handleBeforeInput = getEditorState => char => {
-  // TODO: [] remove this is duplicate logic
-  // TODO: [] Add this to image component
-  const atomicSelection = editorState => {
-    const selection = editorState.getSelection();
-    const firstBlockKey = selection.getStartKey();
-    const sameBlockKeys = selection.getStartKey() === selection.getEndKey();
-    const block = editorState.getCurrentContent().getBlockForKey(firstBlockKey);
-    const blockType = block.getType();
-    return blockType === 'atomic' && sameBlockKeys;
-  };
-  const isValid = atomicSelection(getEditorState());
-  if (isValid) {
+  const editorState = getEditorState();
+  const isHandled = [atomicHandleInput].some(fn => {
+    return fn(editorState) === 'handled';
+  });
+
+  if (isHandled) {
     return 'handled';
   }
 

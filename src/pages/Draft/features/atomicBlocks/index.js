@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Map, fromJS } from 'immutable';
-import ImageBlock from './ImageBlock';
-import VideoBlock from './VideoBlock';
+import Image from './Image';
+import Video from './Video';
 
 class MediaComponent extends Component {
   render() {
@@ -17,11 +17,11 @@ class MediaComponent extends Component {
     switch (type) {
       case 'image': {
         return (
-          <ImageBlock {...this.props} data={checkedData}/>
+          <Image {...this.props} data={checkedData}/>
         );
       }
       case 'video': {
-        return <VideoBlock data={checkedData}/>;
+        return <Video data={checkedData}/>;
       }
       default: {
         return null;
@@ -29,5 +29,10 @@ class MediaComponent extends Component {
     }
   }
 }
+
+MediaComponent.propTypes = {
+  block: PropTypes.object.isRequired,
+  contentState: PropTypes.object.isRequired,
+};
 
 export default MediaComponent;
