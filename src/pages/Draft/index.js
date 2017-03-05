@@ -136,10 +136,17 @@ class RichEditor extends React.Component {
     const editorState = this.state.editorState;
     const selection = editorState.getSelection();
 
-    if (!selection.isCollapsed) {
+    console.log('before checking collapsed');
+    if (!selection.isCollapsed()) {
       console.log('selection must be collapsed before adding media');
       return;
     }
+
+    if (RichUtils.getCurrentBlockType(this.state.editorState) === 'atomic') {
+      console.log('cannot have atomic block selected');
+      return;
+    }
+
     const contentState = editorState.getCurrentContent();
     const contentStateWithEntity = contentState.createEntity(
       'atomic',
@@ -165,7 +172,7 @@ class RichEditor extends React.Component {
   };
 
   render() {
-    contentStateLogger(this.state.editorState);
+    // contentStateLogger(this.state.editorState);
     const { editorState } = this.state;
     return (
       <div className="text-editor-component">
